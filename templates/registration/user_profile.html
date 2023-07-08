@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+    Your Profile
+{% endblock title %}
+
+{% block content %}
+    <h1>{{ customuser.username }}'s profile</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <p>First Name: {{ customuser.first_name }}</p>
+            <p>Last Name: {{ customuser.last_name }}</p>
+            <p>Email: {{ customuser.email }}</p>
+            <p>Date of Birth: {{ customuser.date_of_birth }}</p>
+            <p>Joined: {{ customuser.date_joined }}</p>
+            <p>Last Seen: {{ customuser.last_login }}</p>
+            </div>
+        </div>
+        <br>
+        
+        {% if customuser == user %}
+        <a href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary">Change Profile</a>
+        {% endif %}
+            
+    </div>
+
+    {% endblock content %}
+
