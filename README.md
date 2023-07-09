@@ -2,7 +2,7 @@
 
 ## Author
 
-
+Schyler Lowry
 
 ## Description
 
@@ -113,7 +113,7 @@ https://getbootstrap.com/docs/4.0/getting-started/introduction/
 | **Total**                                   | **100**|
 
 ## Outside Resources Used
-
+https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
 
 
 ## Known Problems, Issues, And/Or Errors in the Program

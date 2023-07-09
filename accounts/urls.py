@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import SignUpView, UserProfileView, UserProfileChangeView
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
