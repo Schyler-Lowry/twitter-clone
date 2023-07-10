@@ -114,7 +114,9 @@ https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 ## Outside Resources Used
 https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
+I learned how to render crispy forms fields individually
 
-
+https://stackoverflow.com/questions/22846048/django-form-as-p-datefield-not-showing-input-type-as-date
+I learned how to render the date of birth field as a calender widget
 ## Known Problems, Issues, And/Or Errors in the Program
 

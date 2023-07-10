@@ -1,4 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django import forms
+from django.forms.widgets import NumberInput, DateInput
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -16,6 +18,7 @@ class CustomUserChangeForm(UserChangeForm):
     """customer user change form"""
     class Meta(UserChangeForm):
         model = CustomUser
+    
         fields = (
             "username",
             "email",
@@ -23,3 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
             "first_name",
             "last_name",
         )
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'})
+        }
+        
