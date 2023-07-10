@@ -8,20 +8,20 @@
 
 {% block content %}
     
-    {% for article in article_list %}
+    {% for twit in twit_list %}
         <div class="card">
             <div class="card-header">
-                <span class="font-weight-bold"><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></span>
-                <span class="text-muted">by {{ article.author }} | {{ article.date }}</span>
+                <span class="font-weight-bold"><a href="#"{# "{% url 'twit_detail' twit.pk %}" #}>{{ twit.title }}</a></span>
+                <span class="text-muted">by {{ twit.author }} | {{ twit.date }}</span>
             </div>
             <div class="card-body"> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
-                <p style="white-space: pre-line">{{ article.body }}</p>
+                <p style="white-space: pre-line">{{ twit.body }}</p>
                 <p>
-                    {% with user_likes=article.likes.all %}
+                    {% with user_likes=twit.likes.all %}
                         <button
-                        data-id="{{ article.id }}"
+                        data-id="{{ twit.id }}"
                         data-action="{% if user in user_likes %}un{% endif %}like"
-                        data-like-url="{{ article.get_like_url }}"
+                        data-like-url="{{ twit.get_like_url }}"
                         class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
                         >
                             <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
@@ -31,12 +31,12 @@
                     {% endwith %}
                 </p>
 
-                {% if article.author == user %}
-                <a href="{% url "article_edit" article.pk %}">Edit</a> | <a href="{% url "article_delete" article.pk %}">Delete</a>
+                {% if twit.author == user %}
+                <a href="{% url "twit_edit" twit.pk %}">Edit</a> | <a href="{% url "twit_delete" twit.pk %}">Delete</a>
                 {% endif %}
             </div>
             <div class="card-footer text-center text-muted">
-                {% for comment in article.comment_set.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
+                {% for comment in twit.comment_set.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
                     <p>
                         <span class="font-weight-bold">
                             {{ comment.author }} &middot;

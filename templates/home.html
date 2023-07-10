@@ -7,7 +7,48 @@
     {% if user.is_authenticated %}
         <p>Hi {{ user.username }}! You joined on {{ user.date_joined }}</p>
         <img src="{% static 'images/evil_coffee_time.jpg' %}" alt="Image should be here...">
-        <p><a href="{% url 'logout' %}">Logout</a></p>
+        <hr>
+        <h2>Twit Feed:</h2>
+        {% for twit in twit_list %}
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold"><a href="#"{# "{% url 'twit_detail' twit.pk %}" #}>{{ twit.title }}</a></span>
+                <span class="text-muted">by {{ twit.author }} | {{ twit.date }}</span>
+            </div>
+            <div class="card-body"> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
+                <p style="white-space: pre-line">{{ twit.body }}</p>
+                <p>
+                    {% with user_likes=twit.likes.all %}
+                        <button
+                        data-id="{{ twit.id }}"
+                        data-action="{% if user in user_likes %}un{% endif %}like"
+                        data-like-url="{# {{ twit.get_like_url }} #}"
+                        class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
+                        >
+                            <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
+                            <span class="like_count">{{ user_likes|length }}</span>
+                            Likes
+                        </button>
+                    {% endwith %}
+                </p>
+
+                {% if twit.author == user %}
+                <a href="#"{# {% url "twit_edit" twit.pk %} #}>Edit</a> | <a href=""{# {% url "twit_delete" twit.pk %} #}>Delete</a>
+                {% endif %}
+            </div>
+            <div class="card-footer text-center text-muted">
+                {% for comment in twit.comment_set.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
+                    <p>
+                        <span class="font-weight-bold">
+                            {{ comment.author }} &middot;
+                        </span>
+                        {{ comment }}
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
     {% else %}
         <p>You are not logged in</p>    
         <a href="{% url 'login' %}">Login</a> |

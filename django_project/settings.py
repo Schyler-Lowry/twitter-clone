@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     # Local First Party
     'accounts.apps.AccountsConfig',
+    'twits.apps.TwitsConfig',
 ]
 
 MIDDLEWARE = [

@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("twits/", include("twits.urls")),
+    #path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("", RedirectView.as_view(pattern_name="twit_list"), name="home"),
 ]

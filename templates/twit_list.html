@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Twits{% endblock title %}
+
+{% block content %}
+    {% for twit in twit_list %}
+        {{ twit.body }}
+    {% endfor %}
+{% endblock content %}
