@@ -2,11 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Article - Create
+    Twit - Create
 {% endblock title %}
 
 {% block content %}
-    <h1>New Article</h1>
+    <h1>New Twit</h1>
     <form action="" method="post">
         {% csrf_token %}
         {{ form|crispy }}

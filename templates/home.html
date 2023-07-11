@@ -12,11 +12,11 @@
         {% for twit in twit_list %}
         <div class="card">
             <div class="card-header">
-                <span class="font-weight-bold"><a href="#"{# "{% url 'twit_detail' twit.pk %}" #}>{{ twit.title }}</a></span>
-                <span class="text-muted">by {{ twit.author }} | {{ twit.date }}</span>
+                <span class="font-weight-bold"><a href="{% url 'twit_detail' twit.pk %}">by {{ twit.author }} | {{ twit.created }}</a></span>
+                <span class="text-muted"></span>
             </div>
-            <div class="card-body"> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
-                <p style="white-space: pre-line">{{ twit.body }}</p>
+            <div class="card-body"> 
+                <p style="white-space: pre-line">{{ twit.body }}</p>{# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                 <p>
                     {% with user_likes=twit.likes.all %}
                         <button
@@ -33,7 +33,7 @@
                 </p>
 
                 {% if twit.author == user %}
-                <a href="#"{# {% url "twit_edit" twit.pk %} #}>Edit</a> | <a href=""{# {% url "twit_delete" twit.pk %} #}>Delete</a>
+                <a href="{% url "twit_edit" twit.pk %}">Edit</a> | <a href="{% url "twit_delete" twit.pk %}">Delete</a>
                 {% endif %}
             </div>
             <div class="card-footer text-center text-muted">
