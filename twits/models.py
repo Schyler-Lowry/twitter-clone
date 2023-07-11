@@ -33,7 +33,7 @@ class Comment(models.Model):
     twit = models.ForeignKey(
         Twit,
         on_delete = models.CASCADE,
-        related_name = 'comments'
+        related_name="comments",
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -49,4 +49,4 @@ class Comment(models.Model):
     
     # this needs to be fixed:
     def get_absolute_url(self):
-        return reverse('article_list')
+        return reverse('twit_list')

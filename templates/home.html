@@ -37,12 +37,13 @@
                 {% endif %}
             </div>
             <div class="card-footer text-center text-muted">
-                {% for comment in twit.comment_set.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
+                {% for comment in twit.comments.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
                     <p>
                         <span class="font-weight-bold">
                             {{ comment.author }} &middot;
                         </span>
-                        {{ comment }}
+                        {{ comment.body }} &middot;
+                        {{ comment.created }}
                     </p>
                 {% endfor %}
             </div>

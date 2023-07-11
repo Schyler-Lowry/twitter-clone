@@ -3,3 +3,4 @@ from django.contrib.auth.admin import UserAdmin
 from .models import Twit, Comment
 
 admin.site.register(Twit)
+admin.site.register(Comment)
