@@ -4,7 +4,7 @@ from django.urls import reverse
 
 class Twit(models.Model):
     """twit model"""
-    body = models.CharField(max_length=140)
+    body = models.TextField(max_length=140)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
@@ -16,6 +16,7 @@ class Twit(models.Model):
         related_name="liked_twits",
         blank=True,
     )
+    image_url = models.CharField(max_length=999, blank=True)
 
     def __str__(self):
         """Twit as a string"""
@@ -39,7 +40,7 @@ class Comment(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    body = models.CharField(max_length=140)
+    body = models.TextField(max_length=140)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

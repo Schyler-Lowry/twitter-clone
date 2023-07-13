@@ -72,6 +72,7 @@ class TwitCreateView(LoginRequiredMixin, CreateView):
     template_name = "twit_new.html"
     fields = (
         "body",
+        "image_url",
     )
     def form_valid(self, form):
         """override form valid method"""
