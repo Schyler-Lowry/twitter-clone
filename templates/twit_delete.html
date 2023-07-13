@@ -7,9 +7,45 @@
 
 {% block content %}
     <h1>Delete</h1>
+    <p>Are you sure you want to delete this Twit?</p>
+        <div class="card">
+            <div class="card-header">
+                
+                <span class="font-weight-bold"><a href="{% url 'twit_detail' twit.pk %}">by {{ twit.author }} | {{ twit.created }}</a></span>
+                <span class="text-muted"></span>
+            </div>
+            <div class="card-body">
+                
+                {% if twit.image_url|length > 1 %}
+                <div class="w-50 p-3">
+                    <img src="{{ twit.image_url }}" class="img-fluid rounded" alt="">
+                </div>
+                {% endif %}
+                    
+                    
+                <p style="white-space: pre-line">{{ twit.body }}</p>{# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
+                <p>
+                    {% with user_likes=twit.likes.all %}
+                        <button
+                        data-id="{{ twit.id }}"
+                        data-action="{% if user in user_likes %}un{% endif %}like"
+                        data-like-url="{# {{ twit.get_like_url }} #}"
+                        class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
+                        >
+                            <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
+                            <span class="like_count">{{ user_likes|length }}</span>
+                            Likes
+                        </button>
+                    {% endwith %}
+                </p>
+
+                
+            </div>
+        </div>
+        <hr>
     <form action="" method="POST">
-        {% csrf_token %}
-        <p>Are you sure you want to delete "{{ twit.body }}"?</p>
+        {% csrf_token %}   
         <button class="btn btn-danger ml-2" type="submit">Confirm</button>
     </form>
+    <br>
 {% endblock content %}
