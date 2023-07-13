@@ -5,6 +5,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
+        
         <p>Hi {{ user.username }}! You joined on {{ user.date_joined }}</p>
         <img src="{% static 'images/evil_coffee_time.jpg' %}" alt="Image should be here...">
         <hr>

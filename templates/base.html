@@ -13,15 +13,17 @@
         
         <div class="container">
             <header class="p-3 mb-3 border-bottom">
-                
+                <nav class="navbar fixed-top" style="background-color: #00f8e7;">
                 <div class="container">
+                    
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <a class="navbar-brand" href="{% url 'home' %}">Home</a>
                         {% if user.is_authenticated %}
                         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                         <li><a href="{% url 'twit_list' %}" class="nav-link px-2 link-dark">Twits</a></li>
+                         {# <li><a href="{% url 'twit_list' %}" class="nav-link px-2 link-dark">Twits</a></li> #}
                          <li><a href="{% url 'twit_new' %}" class="nav-link px-2 link-dark">+ New Twit</a></li>
                         </ul>
+                    </div>
                         <div class="dropdown text-end">
                             <a 
                                 href="#" 
@@ -46,10 +48,14 @@
                             <a href="{% url "signup" %}" class="btn btn-primary">Sign Up</a>
                         </div>
                         {% endif %}
-                    </div>
+                    
+                
                 </div>
+                
+            </nav>
+            
             </header>
-        
+        <hr>
         <main>
             {% block content %}
             {% endblock content %}

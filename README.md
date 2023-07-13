@@ -118,5 +118,8 @@ I learned how to render crispy forms fields individually
 
 https://stackoverflow.com/questions/22846048/django-form-as-p-datefield-not-showing-input-type-as-date
 I learned how to render the date of birth field as a calender widget
+
+https://stackoverflow.com/questions/1898544/django-template-slice-reversing-order
+I learned how to display a list in reverse order.
 ## Known Problems, Issues, And/Or Errors in the Program
 
