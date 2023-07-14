@@ -121,5 +121,8 @@ I learned how to render the date of birth field as a calender widget
 
 https://stackoverflow.com/questions/1898544/django-template-slice-reversing-order
 I learned how to display a list in reverse order.
+
+https://stackoverflow.com/questions/66296575/how-to-get-time-elapsed-since-creation-date-of-an-objectpost-in-django
+I learned how to display "created" as "time elapsed" since created.
 ## Known Problems, Issues, And/Or Errors in the Program
 

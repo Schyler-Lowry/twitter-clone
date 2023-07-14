@@ -13,21 +13,27 @@
         {% for twit in twit_list|dictsortreversed:"created" %}
         <div class="container-fluid">
             <div>         
-                {# TODO: Fix link to twit detail. #}
-                         {# Add an href on the image (if there is one) to the twit detail view. #}       
-                <span class="font-weight-bold"><a href="{% url 'twit_detail' twit.pk %}">by {{ twit.author }} | {{ twit.created }}</a></span>
-                <span class="text-muted"></span>
+                {# TODO: Fix link to user profile when they click on a twit poster's username #}
+                            
+                <a href="{% url 'twit_detail' twit.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+                <span class="text-muted">| {{ twit.created|timesince }} ago</span>
+                <p>{% if twit.author == user %}
+                    <a href="{% url "twit_edit" twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
+                    <a href="{% url "twit_delete" twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                    {% endif %}</p>
             </div>
+            <!-- <button class="btn btn-danger btn-sm ml-2"> -->
             <div>
                 
+                {# TODO: Fix this text nonsense #}
+                <span class="fst-normal"><a class="text-decoration-none" href="{% url 'twit_detail' twit.pk %}"><p class="text-reset" style="white-space: pre-line">{{ twit.body }}</span></p></a>{# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
+                
                 {% if twit.image_url|length > 1 %}
-                <div class="w-50 p-3">
-                    <img src="{{ twit.image_url }}" class="img-fluid rounded" alt="">
+                <div class="w-50">
+                    <p><a href="{% url 'twit_detail' twit.pk %}"><img src="{{ twit.image_url }}" class="img-fluid" alt=""></a></p>
                 </div>
+                
                 {% endif %}
-                    
-                    
-                <p style="white-space: pre-line">{{ twit.body }}</p>{# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                 <p>
                     {% with user_likes=twit.likes.all %}
                         <button
@@ -42,26 +48,23 @@
                         </button>
                     {% endwith %}
                 </p>
-
-                {% if twit.author == user %}
-                <a href="{% url "twit_edit" twit.pk %}"><button class="btn btn-primary btn-sm ml-2"><i class="bi bi-pencil"> </i>Edit</button></a>
-                <a href="{% url "twit_delete" twit.pk %}"><button class="btn btn-danger btn-sm ml-2"><i class="bi bi-trash"></i></button></a>
-                {% endif %}
+                
             </div>
             <br>
             {# TODO: Add better formatting #}
-                     {# Display date created as a "posted on X weeks ago" type thing #}
+                     
                      {# Ensure that only the first 4 comments are returned #} 
             {% if twit.comments.count > 1 %}
-            
-            <div class="card w-50 p-3">
+            {{ twit.comments.count }} comments.
+            <p><a href="{% url 'twit_detail' twit.pk %}" class="btn btn-success btn-sm ml-2">Go to/add comments</a></p>
+            <div class="card w-50">
             <div class="card-body">
                 {% for comment in twit.comments.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
                     
                     <p class="fw-semibold">
                         <a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a>
                          &middot; 
-                        {{ comment.created }}
+                        {{ comment.created|timesince }}
                     </p>
                     <p>{{ comment.body }}</p>
                     <hr>
@@ -69,13 +72,19 @@
                 {% endfor %}
                 
             </div>
+            
             {% else %}
-            No comments yet <br>
+            <span class="fst-italic">No comments yet</span>
+            <p><a href="{% url 'twit_detail' twit.pk %}" class="btn btn-success btn-sm ml-2">Go to/add comments</a></p>
             
             {% endif %}
-            <a href="{% url 'twit_detail' twit.pk %}" class="btn btn-success btn-sm ml-2">Go to/add comments</a>
             
         </div>
+        <div class="container">
+            <br>
+            
+        </div>
+        
         <hr>
     {% endfor %}
     {% else %}
