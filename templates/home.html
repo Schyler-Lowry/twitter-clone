@@ -41,7 +41,7 @@
                         <button
                         data-id="{{ twit.id }}"
                         data-action="{% if user in user_likes %}un{% endif %}like"
-                        data-like-url="{# {{ twit.get_like_url }} #}"
+                        data-like-url="{{ twit.get_like_url }}"
                         class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
                         >
                             <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>

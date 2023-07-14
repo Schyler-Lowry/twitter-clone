@@ -103,9 +103,39 @@ class TwitUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """twit update view"""
     model = Twit
     template_name = "twit_edit.html"
-    fields = ('body',)
+    fields = ('body','image_url',)
 
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
     
+class TwitLikeView(LoginRequiredMixin, View):
+    """twit like view"""
+    def get(self, request, *args, **kwargs):
+        """GET request"""
+
+        # Get out the data from the GET request
+        twit_id = request.GET.get("article_id", None)
+        twit_action = request.GET.get("article_action", None)
+
+        if not twit_id or not twit_action:
+            return JsonResponse(
+                {
+                    "success": False,
+                }
+            )
+
+        twit = Twit.objects.get(id=twit_id)
+        if twit_action == "like":
+            # Do like stuff
+            twit.likes.add(request.user)
+            #article.save()  # might not need this method
+        else:
+            # Do unlike stuff
+            twit.likes.remove(request.user)
+
+        return JsonResponse(
+            {
+                "success": True,
+            }
+        )
