@@ -9,6 +9,11 @@ from django.urls import reverse_lazy, reverse
 from .models import Twit
 from .forms import CommentForm
 
+"""
+Posible TODO: Create a custom "list view" that enables comment posting from the list view home page.
+              The purpose of this would be to remove the necessity of going to the twit detail page in order to make a comment.
+"""
+
 class TwitDetailView(LoginRequiredMixin, View):
     """twit detail view"""
     def get(self, request, *args, **kwargs):
@@ -104,4 +109,3 @@ class TwitUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user
     
-

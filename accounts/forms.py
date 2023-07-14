@@ -28,6 +28,7 @@ class CustomUserChangeForm(UserChangeForm):
             "date_of_birth",
             "first_name",
             "last_name",
+            "avatar",
         )
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'})
