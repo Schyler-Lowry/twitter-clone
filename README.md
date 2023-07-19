@@ -133,5 +133,9 @@ I learned how to create a custom template tag to perform a math operation in the
 
 https://mdbootstrap.com/docs/standard/extended/scroll-div/
 I learned how to create a scrollable div. I used this for the comments on the Twit detail view.
+
+https://www.valentinog.com/blog/testing-django/#testing-a-many-to-many-relationship
+I learned a method for testing M2M fields.
+
 ## Known Problems, Issues, And/Or Errors in the Program
 

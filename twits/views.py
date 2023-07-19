@@ -115,8 +115,8 @@ class TwitLikeView(LoginRequiredMixin, View):
         """GET request"""
 
         # Get out the data from the GET request
-        twit_id = request.GET.get("article_id", None)
-        twit_action = request.GET.get("article_action", None)
+        twit_id = request.GET.get("twit_id", None)
+        twit_action = request.GET.get("twit_action", None)
 
         if not twit_id or not twit_action:
             return JsonResponse(
@@ -129,7 +129,7 @@ class TwitLikeView(LoginRequiredMixin, View):
         if twit_action == "like":
             # Do like stuff
             twit.likes.add(request.user)
-            #article.save()  # might not need this method
+            #twit.save()  # might not need this method
         else:
             # Do unlike stuff
             twit.likes.remove(request.user)
