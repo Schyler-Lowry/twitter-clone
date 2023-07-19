@@ -31,6 +31,7 @@ Tweeter - {{ customuser.username }}'s profile
                     <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
                     <a href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                     <span class="text-muted">| {{ twit.created|timesince }} ago</span>
+                    
                     {% if twit.author == user %}   
                             <a href="{% url "twit_edit" twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
                             <a href="{% url "twit_delete" twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>                       
@@ -72,7 +73,7 @@ Tweeter - {{ customuser.username }}'s profile
                                     </span>     
                                     {{ comment.created|timesince }} ago
                                 </p>
-                                <p>{{ comment.body }}</p>
+                                <p style="white-space: pre-line">{{ comment.body }}</p>
                                 <hr>
                                 
                                 {% endfor %}

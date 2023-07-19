@@ -137,5 +137,7 @@ I learned how to create a scrollable div. I used this for the comments on the Tw
 https://www.valentinog.com/blog/testing-django/#testing-a-many-to-many-relationship
 I learned a method for testing M2M fields.
 
+https://www.w3resource.com/jquery-exercises/part1/jquery-practical-exercise-9.php
+Using the jQuery snippet shown in this tutorial to add a "characters remaining" count to various text fields.
 ## Known Problems, Issues, And/Or Errors in the Program
 

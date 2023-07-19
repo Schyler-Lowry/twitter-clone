@@ -6,7 +6,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 
-from .models import Twit
+from .models import Twit, Comment
 from .forms import CommentForm
 
 """
@@ -65,6 +65,41 @@ class CommentPostView(SingleObjectMixin, FormView):
         """get the success url"""
         twit = self.get_object()
         return reverse("twit_detail", kwargs={"pk": twit.pk})
+    
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """twit update view"""
+    model = Comment
+    form_class = CommentForm
+    template_name = "comment_edit.html"
+    
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+    
+    def get_success_url(self):
+        """get the success url"""
+        comment = self.get_object()
+        return reverse("twit_detail", kwargs={"pk": comment.twit.pk})
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """twit update view"""
+    model = Comment
+    
+    template_name = "comment_delete.html"
+    #success_url = reverse_lazy('home')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+    def get_success_url(self):
+        """get the success url"""
+        comment = self.get_object()
+        return reverse("twit_detail", kwargs={"pk": comment.twit.pk})
+    # def get_success_url(self):
+    #     """get the success url"""
+    #     comment = self.get_object()
+    #     return reverse("twit_detail", kwargs={"pk": comment.twit.pk})
 
 class TwitListView(LoginRequiredMixin, ListView):
     """twit list view"""
@@ -75,6 +110,7 @@ class TwitCreateView(LoginRequiredMixin, CreateView):
     """twit create view"""
     model = Twit
     template_name = "twit_new.html"
+    
     fields = (
         "body",
         "image_url",

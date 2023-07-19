@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}
     Twit - Edit
@@ -10,7 +11,10 @@
     <h1>Edit</h1>
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ form.body|as_crispy_field }}
+        <span id="rchars">140</span> Character(s) Remaining</span>
+        {{ form.image_url|as_crispy_field }}
         <button class="btn btn-info ml-2" type="submit">Update</button>
+        <a href="{% url 'twit_detail' twit.pk %}" id="cancel" name="cancel" class="btn btn-danger ml-2">Cancel</a>
     </form>
 {% endblock content %}

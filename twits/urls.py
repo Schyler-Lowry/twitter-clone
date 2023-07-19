@@ -6,10 +6,15 @@ from .views import (
     TwitDeleteView,
     TwitUpdateView,
     TwitLikeView,
+    CommentUpdateView,
+    CommentDeleteView
 )
 
 urlpatterns = [
+    
     path("<int:pk>/", TwitDetailView.as_view(), name="twit_detail"),
+    path("<int:twit_pk>/comment/edit/<int:pk>/", CommentUpdateView.as_view(), name="comment_edit"),
+    path("<int:twit_pk>/comment/delete/<int:pk>/", CommentDeleteView.as_view(), name="comment_delete"),
     path("<int:pk>/edit/", TwitUpdateView.as_view(), name="twit_edit"),
     path("<int:pk>/delete/", TwitDeleteView.as_view(), name="twit_delete"),
     path("<int:pk>/like/", TwitLikeView.as_view(), name="twit_like"),
