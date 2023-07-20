@@ -8,23 +8,32 @@
 
 
 {% block content %}
-    <div>
-        <div class="text rounded-pill bg-info w-50 p-2">
-            <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
-            <a href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+    <div class="col">
+        <div class="text rounded-pill bg-info p-2">
+            <div class="row">
+                <div class="col">
+                    <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
+                 <a href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                 <span class="text-muted">| {{ twit.created|timesince }} ago</span>
-                
+                </div>
+                <div class="col-2">
                     {% if twit.author == user %}
-                        <a href="{% url "twit_edit" twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                        <a href="{% url "twit_delete" twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                    <div class="mt-2">
+                        <a class="align-middle" href="{% url "twit_edit" twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
+                        <a class="align-middle" href="{% url "twit_delete" twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                    </div>
                     {% endif %}
+                </div>
+            </div>
+                
+                    
         </div>
                 <br>
                 
                     <p style="white-space: pre-line">{{ object.body }}</p>
                     
             {% if twit.image_url|length > 1 %}
-                <div class="w-50">
+                <div>
                     <img src="{{ twit.image_url }}" class="img-fluid" alt="">
                 </div>
             {% endif %}
@@ -55,24 +64,26 @@
     
     <h4>Comments</h4>
     <p>{{ twit.comments.count }} comments.</p>
-            <div class="card w-50">
+            <div class="card w-75">
             <div class="card-body">
-                <div class="overflow-auto bg-light"
+                <div id="top" class="overflow-auto bg-light"
                 style="max-height: 400px;">
                     {% for comment in twit.comments.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
-                    
-                    <p>
-                        <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=25 %}" class="rounded-circle" alt="user image"></a>
-                        <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span> 
-                         
-                        {{ comment.created|timesince }} ago
-                        
-                        {% if comment.author == user %}
-                         | <a href="{% url "comment_edit" twit.pk comment.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                         <a href="{% url "comment_delete" twit.pk comment.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
-                         
-                         {% endif %}
-                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=25 %}" class="rounded-circle" alt="user image"></a>
+                             <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span>{{ comment.created|timesince }}
+                        </div>
+
+                        <div class="col-3">
+                            {% if comment.author == user %}
+                                <div class="ms-3">
+                                    <a href="{% url "comment_edit" twit.pk comment.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
+                                    <a href="{% url "comment_delete" twit.pk comment.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                                </div>
+                             {% endif %}
+                        </div>
+                    </div>
                     <p style="white-space: pre-line">{{ comment.body }}</p>
                     <hr>
                     

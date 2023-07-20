@@ -50,3 +50,26 @@ $('textarea').keyup(function() {
   var textlen = maxLength - $(this).val().length;
   $('#rchars').text(textlen);
 });
+
+
+var container = $('#top');
+
+$("#btn-back-to-top").click(function () {
+    $('#top').animate({
+        scrollTop: 0
+    }, 800);
+
+});
+
+
+
+// source: mdBootstrap
+// need to fix to work for rest of page
+let mybutton = document.getElementById("btn-back-to-top");
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}

@@ -139,5 +139,12 @@ I learned a method for testing M2M fields.
 
 https://www.w3resource.com/jquery-exercises/part1/jquery-practical-exercise-9.php
 Using the jQuery snippet shown in this tutorial to add a "characters remaining" count to various text fields.
+
+https://stackoverflow.com/questions/4565381/scrolltop-jquery-scrolling-to-div-with-id
+https://stackoverflow.com/questions/2369081/how-to-scroll-to-top-of-a-div-using-jquery
+https://mdbootstrap.com/snippets/standard/mdbootstrap/2964350#js-tab-view
+https://www.youtube.com/watch?v=FixZpR7TWTc
+https://www.youtube.com/watch?v=AwgODLLSgwU
+From these videos/posts, I learned how to write a jQuery script that scrolls to the top of a div. 
 ## Known Problems, Issues, And/Or Errors in the Program
 

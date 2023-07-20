@@ -9,6 +9,7 @@ from .views import (
     CommentUpdateView,
     CommentDeleteView
 )
+from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
     
@@ -19,5 +20,6 @@ urlpatterns = [
     path("<int:pk>/delete/", TwitDeleteView.as_view(), name="twit_delete"),
     path("<int:pk>/like/", TwitLikeView.as_view(), name="twit_like"),
     path("new/", TwitCreateView.as_view(), name="twit_new"),
+    path("testing/", TwitListView.as_view(template_name="testing_page.html"), name="testing"),
     path("", TwitListView.as_view(), name="home"),
 ]

@@ -1,35 +1,21 @@
 {% extends 'base.html' %}
-{% load maths %}
+{% load static %}
 {% load helper_tags %}
+{% load maths %}
 {% block title %}
-Tweeter - {{ customuser.username }}'s profile
+    Testing Page
 {% endblock title %}
 
 {% block content %}
-    
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <h1>{{ customuser.username }}'s profile</h1>
-                <p><img src="{% get_avatar_url email=customuser.email %}" class="rounded-circle" alt="user image"></p>
-                <p>First Name: {{ customuser.first_name }}</p>
-            <p>Last Name: {{ customuser.last_name }}</p>
-            <p>Email: {{ customuser.email }}</p>
-            <p>Date of Birth: {{ customuser.date_of_birth }}</p>
-            <p>Joined: {{ customuser.date_joined }}</p>
-            <p>Last Seen: {{ customuser.last_login }}</p>
-            </div>
-        </div>
-        <br>
-        {% if customuser == user %}
-        <p><a href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary">Change Profile</a></p>
-        {% endif %}
-        
-        <div class="card">
+<div class="container text-start">
+    <div class="row align-items-start sticky-top">
+      <div class="col">
+        <div class="card mb-3">
             <div class="card-body">
                 <div id="top" class="overflow-auto bg-light"
                 style="max-height: 800px;">
-                {% for twit in customuser.twit_set.all|dictsortreversed:"created" %}
+
+                {% for twit in twit_list|dictsortreversed:"created" %}
                 <div class="text rounded-pill bg-info p-2">         
                     <div class="row">
                         <div class="col">
@@ -124,14 +110,52 @@ Tweeter - {{ customuser.username }}'s profile
 
                     
                     {% endif %}
- 
-                    <hr>
+                <hr>
+            
                 {% endfor %}
             </div>
+            </div>
         </div>
-        
-        </div>
+      </div>
+      
+      
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav flex-column">
+                        <li><a href="{% url 'home' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2"><i class="bi bi-house"> </i>Home</button></a></li>
+                        <li><a href="{% url 'twit_new' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2">+ New Twit</button></a></li>
+                        <li><a href="{% url 'testing' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2">Testing Page</button></a></li>                         
+                        <li><a class="nav-link px-2 link-dark" href="{% url 'user_profile' user.pk %}"><button class="btn btn-secondary ml-2">Your Profile</button></a></li>
+                        <li><a href="#" class="nav-link px-2 link-dark"><button id="btn-back-to-top" class="btn btn-secondary ml-2">Back to top</button></a></li>
+                        <li>
+                            <a 
+                                href="#" 
+                                class="nav-link px-2 link-dark"
+                                id ="dropdownUser1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                            <button class="btn btn-secondary ml-2">{{ user.username }} <i class="bi bi-caret-down-square"></i></button>
+                            </a>
+                            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'user_profile' user.pk %}">Your Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
+                            </ul>
+                        </li>
+                            
+                        
+                      </ul>
+                </div>
+            </div>
+        </div>       
+     </div>
+      
+      
     </div>
-
-    {% endblock content %}
-
+  </div>
+{% endblock content %}
