@@ -8,12 +8,12 @@
 
 
 {% block content %}
-    <div class="col">
+    <div class="col bg-light p-2">
         <div class="text rounded-pill bg-info p-2">
             <div class="row">
                 <div class="col">
                     <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
-                 <a href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+                 <a class="text-dark" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                 <span class="text-muted">| {{ twit.created|timesince }} ago</span>
                 </div>
                 <div class="col-2">
@@ -64,9 +64,9 @@
     
     <h4>Comments</h4>
     <p>{{ twit.comments.count }} comments.</p>
-            <div class="card w-75">
+            <div class="card">
             <div class="card-body">
-                <div id="top" class="overflow-auto bg-light"
+                <div id="top" class="overflow-auto"
                 style="max-height: 400px;">
                     {% for comment in twit.comments.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
                     <div class="row">
@@ -77,7 +77,7 @@
 
                         <div class="col-3">
                             {% if comment.author == user %}
-                                <div class="ms-3">
+                                <div class="text-end">
                                     <a href="{% url "comment_edit" twit.pk comment.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
                                     <a href="{% url "comment_delete" twit.pk comment.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
                                 </div>
@@ -92,13 +92,48 @@
     
             </div>
     <div class="card-body">
-        <h4>Add a comment</h4>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <span id="rchars">140</span> Character(s) Remaining</span>
-        <p><button class="btn btn-success ml-2" type="submit">Add comment</button></p>
-    </form>
+        {% comment dropdown end menu popup %}
+        <div class="dropend text-end">
+            <button type="button" class="btn btn-primary dropdown-toggle border border-2 border-subtle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Add a comment
+              </button>  
+              <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">Add a comment</h6></li>
+                <li>
+                    <div class="card-body">
+                        
+                    </div>
+                </li>
+              </ul>
+            </div>
+        {% endcomment %}
+            
+        <button class="btn btn-primary btn-lg dropdown-toggle border border-2 border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <i class="bi bi-chat"></i> Add a comment
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <span id="rchars">140</span> Character(s) Remaining</span>
+                <p class="pt-2">
+                    <button class="btn btn-success ml-2" type="submit">Comment</button>
+                    <button 
+                        id="btn-cancel-comment"
+                        class="btn btn-danger ml-2" 
+                        type="button"
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#collapseExample" 
+                        aria-expanded="false" 
+                        aria-controls="collapseExample"
+                    >Cancel</button>
+                </p>
+             </form>
+          
+        </div>
+        
     </div>
     
         
@@ -107,4 +142,5 @@
     <br>
     <p>Back to <a href="{% url "home" %}">All twits</a></p>
 {% endblock content %}
-    
+
+

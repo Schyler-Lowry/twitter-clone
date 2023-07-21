@@ -45,35 +45,36 @@
                             {% url 'testing' as testing %}
                             {% url 'twit_new' as twit_new %}
                             {% url 'user_profile' user.pk as user_profile %}
-                            <div class="d-grid gap-2 mx-auto">
+                            <div class="d-grid gap-2 col-10 mx-auto">
                                 
-                            
-                                <button type="button" class="{% if request.get_full_path == home %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ home }}" class="nav-link px-2 link-dark"><i class="bi bi-house"> </i>Home</button></a>
-                                <button class="{% if request.get_full_path == twit_new %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ twit_new }}" class="nav-link px-2 link-dark"><i class="bi bi-chat-quote"> </i> New Twit</button></a>
-                                <button class="{% if request.get_full_path == testing %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ testing }}" class="nav-link px-2 link-dark">Testing Page</button></a>                         
-                                <button class="{% if request.get_full_path == user_profile %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ user_profile }}" class="nav-link px-2 link-dark" ><i class="bi bi-person"></i> Your Profile</button></a>
-                                <button id="btn-back-to-top" class="btn btn-outline-info ml-2"><a href="#" class="nav-link px-2 link-dark"><i class="bi bi-arrow-up-circle"></i> Back to top</button></a>
-                                
-                                    
-                                    <button 
+                            <ul class="nav flex-column">
+                                <li><button type="button" class="{% if request.get_full_path == home %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ home }}" class="nav-link px-2 link-dark"><i class="bi bi-house"> </i>Home</button></a></li>
+                                <li><button class="{% if request.get_full_path == twit_new %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ twit_new }}" class="nav-link px-2 link-dark"><i class="bi bi-chat-quote"> </i> New Twit</button></a></li>
+                                <li><button class="{% if request.get_full_path == testing %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ testing }}" class="nav-link px-2 link-dark">Testing Page</button></a></li>                         
+                                <li><button class="{% if request.get_full_path == user_profile %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ user_profile }}" class="nav-link px-2 link-dark" ><i class="bi bi-person"></i> Your Profile</button></a></li>
+                                <li><button id="btn-back-to-top" class="btn btn-outline-info ml-2"><a href="#" class="nav-link px-2 link-dark"><i class="bi bi-arrow-up-circle"></i> Back to top</button></a></li>
+                                <li>
+                                    <a 
+                                        href="#" 
+                                        class="nav-link px-2 link-dark"
                                         id ="dropdownUser1"
                                         data-bs-toggle="dropdown"
-                                        aria-expanded="false" 
-                                        class="btn btn-outline-info ml-2"
-                                    ><span class="nav-link px-2 link-dark">{{ user.username }} <i class="bi bi-caret-down-square"></i></span></button>
-                                    
-                                    <ul class="dropdown-menu border border-black" aria-labelledby="dropdownUser1">
+                                        aria-expanded="false"
+                                    >
+                                    <button class="btn btn-outline-info ml-2">{{ user.username }} <i class="bi bi-caret-down-square"></i></button>
+                                    </a>
+                                    <ul class="dropdown-menu bg-info border rounded border-black" aria-labelledby="dropdownUser1">
                                         {% if user.is_staff %}
-                                        <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                                        <li class="border border-bottom-0 rounded border-black"><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
                                         {% endif %}
-                                        <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'user_profile' user.pk %}">Your Profile</a></li>
-                                        <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
-                                        <li class=""><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
+                                        <li class="border rounded border-black"><a class="dropdown-item" href="{% url 'user_profile' user.pk %}">Your Profile</a></li>
+                                        <li class="border border-top-0 rounded border-black"><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+                                        <li class="border border-top-0 rounded border-black"><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
                                     </ul>
                                 </li>
                                     
                                 
-                              
+                              </ul>
                             </div>
                         </div>
                     </div>

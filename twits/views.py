@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import UpdateView, DeleteView, CreateView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormMixin
+
 from django.urls import reverse_lazy, reverse
 
 from .models import Twit, Comment
@@ -66,6 +67,8 @@ class CommentPostView(SingleObjectMixin, FormView):
         twit = self.get_object()
         return reverse("twit_detail", kwargs={"pk": twit.pk})
     
+    
+    
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """twit update view"""
     model = Comment
@@ -105,6 +108,45 @@ class TwitListView(LoginRequiredMixin, ListView):
     """twit list view"""
     model = Twit
     template_name = 'home.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(TwitListView, self).get_context_data(**kwargs)
+        context['form'] = CommentForm
+        return context
+    
+class FormListView(FormMixin, ListView):
+    def get(self, request, *args, **kwargs):
+        # From FormMixin
+        form_class = self.get_form_class()
+        self.form = self.get_form(form_class)
+
+        # From ListView
+        self.object_list = self.get_queryset()
+        allow_empty = self.get_allow_empty()
+        if not allow_empty and len(self.object_list) == 0:
+            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
+                          % {'class_name': self.__class__.__name__})
+
+        context = self.get_context_data(object_list=self.object_list, form=self.form)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+class CommentFormListView(FormListView):
+    template_name ='testing_page.html'
+    #context_object_name = 'comments'
+    model = Twit
+
+    # FormListView
+    form_class = CommentForm
+
+    # your custom method 
+    def get_context_data(self, **kwargs):
+        context = super(CommentFormListView, self).get_context_data(**kwargs)
+        context['form'] = CommentForm
+        return context
+    
 
 class TwitCreateView(LoginRequiredMixin, CreateView):
     """twit create view"""

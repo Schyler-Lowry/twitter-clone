@@ -8,45 +8,46 @@
 {% endblock title %}
 
 {% block content %}
-
-<div class="text rounded-pill bg-info w-50 p-2">
-    <a href="{% url "user_profile" comment.twit.author.pk %}"><img src="{% get_avatar_url email=comment.twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
-    <a href="{% url "user_profile" comment.twit.author.pk %}"><span class="fs-4 fw-bold">{{ comment.twit.author }}</span></a>
-        <span class="text-muted">| {{ comment.twit.created|timesince }} ago</span>
-        
-            {% if comment.twit.author == user %}
-                <a href="{% url "twit_edit" comment.twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                <a href="{% url "twit_delete" comment.twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
-            {% endif %}
-</div>
-        <br>
-        
-            <p style="white-space: pre-line">{{ object.body }}</p>
+<div class="col">
+    <div class="text rounded-pill bg-info p-2">
+        <a href="{% url "user_profile" comment.twit.author.pk %}"><img src="{% get_avatar_url email=comment.twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
+        <a href="{% url "user_profile" comment.twit.author.pk %}"><span class="fs-4 fw-bold">{{ comment.twit.author }}</span></a>
+            <span class="text-muted">| {{ comment.twit.created|timesince }} ago</span>
             
-    {% if comment.twit.image_url|length > 1 %}
-        <div class="w-50">
-            <img src="{{ comment.twit.image_url }}" class="img-fluid" alt="">
-        </div>
-    {% endif %}
-        {% if comment.twit.updated != comment.twit.created %}
-            <p class="fst-italic">Updated {{ comment.twit.updated|timesince }} ago</p>
-        {% else %}
-            <p></p>
+                {% if comment.twit.author == user %}
+                    <a href="{% url "twit_edit" comment.twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
+                    <a href="{% url "twit_delete" comment.twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                {% endif %}
+    </div>
+            <br>
+            
+                <p style="white-space: pre-line">{{ object.body }}</p>
+                
+        {% if comment.twit.image_url|length > 1 %}
+            <div class="w-50">
+                <img src="{{ comment.twit.image_url }}" class="img-fluid" alt="">
+            </div>
         {% endif %}
-    <p>
-        {% with user_likes=twit.likes.all %}
-            <button
-            data-id="{{ comment.twit.id }}"
-            data-action="{% if user in user_likes %}un{% endif %}like"
-            data-like-url="{{ comment.twit.get_like_url }}"
-            class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
-            >
-                <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
-                <span class="like_count">{{ user_likes|length }}</span>
-                Likes
-            </button>
-        {% endwith %}
-    </p>
+            {% if comment.twit.updated != comment.twit.created %}
+                <p class="fst-italic">Updated {{ comment.twit.updated|timesince }} ago</p>
+            {% else %}
+                <p></p>
+            {% endif %}
+        <p>
+            {% with user_likes=twit.likes.all %}
+                <button
+                data-id="{{ comment.twit.id }}"
+                data-action="{% if user in user_likes %}un{% endif %}like"
+                data-like-url="{{ comment.twit.get_like_url }}"
+                class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
+                >
+                    <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
+                    <span class="like_count">{{ user_likes|length }}</span>
+                    Likes
+                </button>
+            {% endwith %}
+        </p> 
+</div>
 <hr>
 <h4>Editing Comment</h4>
    
@@ -78,7 +79,7 @@
     {% csrf_token %}
     {{ form.body|as_crispy_field }}
     <span id="rchars">140</span> Character(s) Remaining</span>
-    <button class="btn btn-info ml-2" type="submit">Update</button>
+    <button class="btn btn-info ms-3" type="submit">Update</button>
     <a href="{% url 'twit_detail' comment.twit.pk %}" id="cancel" name="cancel" class="btn btn-danger ml-2">Cancel</a>
 </form>
             </div>

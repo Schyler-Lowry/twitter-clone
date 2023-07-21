@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load helper_tags %}
 {% load maths %}
 {% block title %}
@@ -96,17 +97,40 @@
                             <hr>
                         {% endfor %}
                     </div>
-                    {% if twit.comments.count > 3 %}
-                        <a href="{% url 'twit_detail' twit.pk %}"><div class="card-footer">{{ twit.comments.count|subtract:"3" }} more comments</div></a>
-                    {% endif %}
+                    
+                        <div class="card-footer">
+                            <button class="btn btn-primary dropdown-toggle border border-2 border-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Add a comment
+                              </button>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                              
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <span id="rchars">140</span> Character(s) Remaining</span>
+                                    <p class="pt-2">
+                                        <button class="btn btn-success ml-2" type="submit">Comment</button>
+                                        <button 
+                                            class="btn btn-danger ml-2" 
+                                            type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#collapseExample" 
+                                            aria-expanded="false" 
+                                            aria-controls="collapseExample"
+                                        >Cancel</button>
+                                    </p>
+                                 </form>
+                              
+                            </div>
+                        </div>
+                    
                     
                 
 
                 </div>
-                {% else %}
+                
             
-                    <p><a href="{% url 'twit_detail' twit.pk %}" class="btn btn-success btn-sm ml-2"><i class="bi bi-chat"></i> Comment</a></p>
-                    <p class="fst-italic">No comments yet</p>
 
                     
                     {% endif %}
@@ -117,17 +141,21 @@
             </div>
         </div>
       </div>
+      {% url 'home' as home %}
+      {% url 'testing' as testing %}
+      {% url 'twit_new' as twit_new %}
       
       
         <div class="col-3">
             <div class="card">
                 <div class="card-body">
+                    <!-- <button class="btn btn-secondary border-2 border-info ml-2"><i class="bi bi-house"> </i>Home</button> -->
                     <ul class="nav flex-column">
-                        <li><a href="{% url 'home' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2"><i class="bi bi-house"> </i>Home</button></a></li>
-                        <li><a href="{% url 'twit_new' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2">+ New Twit</button></a></li>
-                        <li><a href="{% url 'testing' %}" class="nav-link px-2 link-dark"><button class="btn btn-secondary ml-2">Testing Page</button></a></li>                         
-                        <li><a class="nav-link px-2 link-dark" href="{% url 'user_profile' user.pk %}"><button class="btn btn-secondary ml-2">Your Profile</button></a></li>
-                        <li><a href="#" class="nav-link px-2 link-dark"><button id="btn-back-to-top" class="btn btn-secondary ml-2">Back to top</button></a></li>
+                        <li class="nav-item {% if request.path == home %}active{% endif %}"><a href="{{ home }}" class="nav-link px-2 ">Home</a></li>
+                        <li class="nav-item {% if request.path == twit_new %}active{% endif %}"><a href="{{ twit_new }}" class="nav-link px-2 ">New Twit</a></li>
+                        <li class="nav-item {% if request.path == testing %}active{% endif %}"><a href="{{ testing }}" class="nav-link px-2">Testing Page</a></li>                         
+                        <li><a class="nav-link px-2 link-dark" href="{% url 'user_profile' user.pk %}">Your Profile</a></li>
+                        <li><a href="#" id="btn-back-to-top" class="nav-link px-2 link-dark">Back to top</a></li>
                         <li>
                             <a 
                                 href="#" 
@@ -136,7 +164,7 @@
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
-                            <button class="btn btn-secondary ml-2">{{ user.username }} <i class="bi bi-caret-down-square"></i></button>
+                            <button class="btn btn-secondary border-2 border-info ml-2">{{ user.username }} <i class="bi bi-caret-down-square"></i></button>
                             </a>
                             <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                                 {% if user.is_staff %}

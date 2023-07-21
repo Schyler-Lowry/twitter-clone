@@ -55,6 +55,7 @@ $('textarea').keyup(function() {
 var container = $('#top');
 
 $("#btn-back-to-top").click(function () {
+    
     $('#top').animate({
         scrollTop: 0
     }, 800);
@@ -73,3 +74,10 @@ function backToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
+
+
+$('#btn-cancel-comment').click(function() {
+    $('textarea').val('')
+});
+
+
