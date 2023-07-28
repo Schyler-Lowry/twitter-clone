@@ -33,7 +33,8 @@
                     <p style="white-space: pre-line">{{ object.body }}</p>
                     
             {% if twit.image_url|length > 1 %}
-                <div>
+            <!-- style="max-width: 75%; max-height: 75%;" -->
+                <div class="w-75">
                     <img src="{{ twit.image_url }}" class="img-fluid" alt="">
                 </div>
             {% endif %}

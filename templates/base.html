@@ -31,7 +31,8 @@
         
         <main>{% if user.is_authenticated %}
             <div class="container text-start">
-            <div class="row align-items-start sticky-top">
+            <div class="row align-items-start">
+                
                 <div class="col">
                     {% block content %}
                     {% endblock content %}
@@ -70,7 +71,7 @@
                                         <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
                                         <li class=""><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
                                     </ul>
-                                </li>
+                                
                                     
                                 
                               

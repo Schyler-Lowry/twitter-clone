@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% load maths %}
 {% load helper_tags %}
 {% block title %}Tweeter{% endblock title %}
@@ -11,8 +12,8 @@
     
         
             <div class="card mb-3">
-                <div class="card-body">
-                    <div id="top" class="overflow-auto bg-light"
+                <div class="card-body bg-light">
+                    <div id="top" class="overflow-auto"
                     style="max-height: 800px;">
     
                     {% for twit in twit_list|dictsortreversed:"created" %}
@@ -20,7 +21,7 @@
                         <div class="row">
                             <div class="col">
                                 <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
-                                <a class="text-dark" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+                                <a class="text-light" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                                 <span class="text-muted"> | {{ twit.created|timesince }} ago</span>
                             </div>
                             <div class="col-2">      
@@ -77,7 +78,7 @@
                             <div class="row">
                                 <div class="col">
                                     <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=25 %}" class="rounded-circle" alt="user image"></a>
-                                     <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span>{{ comment.created|timesince }}
+                                     <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span>{{ comment.created|timesince }} ago
                                 </div>
     
                                 <div class="col-3">
@@ -110,6 +111,34 @@
     
                         
                         {% endif %}
+                        
+                        <div class="card-footer">
+                            <button class="btn btn-primary dropdown-toggle border border-2 border-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Add a comment
+                              </button>
+                            </p>
+                            <div class="collapse" id="collapseExample">
+                              
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <span class="rchars" id="rchars">140</span> Character(s) Remaining</span>
+                                    <p class="pt-2">
+                                        <button class="btn btn-success ml-2" type="submit">Comment</button>
+                                        <button 
+                                            class="btn btn-danger ml-2" 
+                                            type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#collapseExample" 
+                                            aria-expanded="false" 
+                                            aria-controls="collapseExample"
+                                        >Cancel</button>
+                                    </p>
+                                 </form>
+                              
+                            </div>
+                        </div>
+                    
                     <hr>
                 
                     {% endfor %}

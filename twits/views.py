@@ -1,9 +1,12 @@
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import models
 from django.http import Http404, JsonResponse
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormMixin
+from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormMixin, BaseCreateView
 
 from django.urls import reverse_lazy, reverse
 
@@ -14,6 +17,34 @@ from .forms import CommentForm
 Posible TODO: Create a custom "list view" that enables comment posting from the list view home page.
               The purpose of this would be to remove the necessity of going to the twit detail page in order to make a comment.
 """
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    success_url = reverse_lazy("testing")
+    form_class = CommentForm
+    template_name = "testing_page.html"
+    
+    def form_valid(self, form, **kwargs):
+        """create new comment when form is valid"""
+        # Get the comment instance by saving the form, but set commit to False,
+        # because we don't want the form to actually fully save the model to the db yet.
+        comment = form.save(commit=False)
+        # Attach the twit to the new comment.
+        id = self.request.POST.get("twit_id")
+        comment.twit = Twit.objects.get(pk=id)
+        # Attach the logged in user to the new comment.
+        comment.author = self.request.user
+        # now we call save() to commit the comment to the DB
+        comment.save()
+        return super().form_valid(form)
+    
+    
+    def get_context_data(self, **kwargs):
+        """override context data to send to template"""
+        context = super().get_context_data(**kwargs)
+        context["twit_list"] = Twit.objects.all()
+        return context
+
+
+
 
 class TwitDetailView(LoginRequiredMixin, View):
     """twit detail view"""
@@ -54,7 +85,7 @@ class CommentPostView(SingleObjectMixin, FormView):
         # Get the comment instance by saving the form, but set commit to False,
         # because we don't want the form to actually fully save the model to the db yet.
         comment = form.save(commit=False)
-        # Attach the article to the new comment.
+        # Attach the twit to the new comment.
         comment.twit = self.object
         # Attach the logged in user to the new comment.
         comment.author = self.request.user
@@ -114,38 +145,7 @@ class TwitListView(LoginRequiredMixin, ListView):
         context['form'] = CommentForm
         return context
     
-class FormListView(FormMixin, ListView):
-    def get(self, request, *args, **kwargs):
-        # From FormMixin
-        form_class = self.get_form_class()
-        self.form = self.get_form(form_class)
 
-        # From ListView
-        self.object_list = self.get_queryset()
-        allow_empty = self.get_allow_empty()
-        if not allow_empty and len(self.object_list) == 0:
-            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
-                          % {'class_name': self.__class__.__name__})
-
-        context = self.get_context_data(object_list=self.object_list, form=self.form)
-        return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
-class CommentFormListView(FormListView):
-    template_name ='testing_page.html'
-    #context_object_name = 'comments'
-    model = Twit
-
-    # FormListView
-    form_class = CommentForm
-
-    # your custom method 
-    def get_context_data(self, **kwargs):
-        context = super(CommentFormListView, self).get_context_data(**kwargs)
-        context['form'] = CommentForm
-        return context
     
 
 class TwitCreateView(LoginRequiredMixin, CreateView):

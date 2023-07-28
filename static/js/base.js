@@ -45,15 +45,21 @@ $(document).ready(function () {
 
 
 
+// var maxLength = 140;
+// $('textarea').keyup(function() {
+//   var textlen = maxLength - $(this).val().length;
+//   $('#rchars').text(textlen);
+// });
+
+
 var maxLength = 140;
-$('textarea').keyup(function() {
+$("[id='id_body']").keyup(function() {
   var textlen = maxLength - $(this).val().length;
-  $('#rchars').text(textlen);
+  $("[id='rchars']").text(textlen);
 });
 
 
 var container = $('#top');
-
 $("#btn-back-to-top").click(function () {
     
     $('#top').animate({
@@ -64,8 +70,8 @@ $("#btn-back-to-top").click(function () {
 
 
 
+
 // source: mdBootstrap
-// need to fix to work for rest of page
 let mybutton = document.getElementById("btn-back-to-top");
 // When the user clicks on the button, scroll to the top of the document
 mybutton.addEventListener("click", backToTop);
@@ -80,4 +86,26 @@ $('#btn-cancel-comment').click(function() {
     $('textarea').val('')
 });
 
+$('#openModal').on('loaded.bs.modal', function () {
+    if (typeof (history.pushState) != "undefined") {
+          var obj = { Title: "Testing", Url: 'testing/1/' };
+          history.pushState(obj, obj.Title, obj.Url);
+      }
+  })
 
+  $(document).ready(function(){
+    $(window.location.hash).modal('show');
+    $('a[data-bs-toggle="modal"]').click(function(){
+       window.location.hash = $(this).attr('href');
+    });
+ });
+
+ $(document).ready(function () {
+    var hash = window.location.hash; // #modal-1
+    $(hash).modal('toggle');
+  });
+  
+  
+  $(document).on('show.bs.modal', ".modal", function(event) {
+    window.location.hash = 'blah' // event.currentTarget.id;
+  });

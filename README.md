@@ -114,39 +114,30 @@ https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 ## Outside Resources Used
 https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
-
 I learned how to render crispy forms fields individually.
 
 https://stackoverflow.com/questions/22846048/django-form-as-p-datefield-not-showing-input-type-as-date
-
 I learned how to render the date of birth field as a calender widget.
 
 https://stackoverflow.com/questions/1898544/django-template-slice-reversing-order
-
 I learned how to display a list in reverse order.
 
 https://stackoverflow.com/questions/43974983/how-to-iterate-python-django-loop-for-n-times-in-template
-
 I learned about the the |slice filter so that I could only display the first 3 objects in a for loop.
 
 https://stackoverflow.com/questions/66296575/how-to-get-time-elapsed-since-creation-date-of-an-objectpost-in-django
-
 I learned how to display "created" as "time elapsed" since created.
 
 https://stackoverflow.com/questions/12233210/math-on-django-templates
-
 I learned how to create a custom template tag to perform a math operation in the template.
 
 https://mdbootstrap.com/docs/standard/extended/scroll-div/
-
 I learned how to create a scrollable div. I used this for the comments on the Twit detail view.
 
 https://www.valentinog.com/blog/testing-django/#testing-a-many-to-many-relationship
-
 I learned a method for testing M2M fields.
 
 https://www.w3resource.com/jquery-exercises/part1/jquery-practical-exercise-9.php
-
 Using the jQuery snippet shown in this tutorial to add a "characters remaining" count to various text fields.
 
 https://stackoverflow.com/questions/4565381/scrolltop-jquery-scrolling-to-div-with-id
@@ -154,11 +145,12 @@ https://stackoverflow.com/questions/2369081/how-to-scroll-to-top-of-a-div-using-
 https://mdbootstrap.com/snippets/standard/mdbootstrap/2964350#js-tab-view
 https://www.youtube.com/watch?v=FixZpR7TWTc
 https://www.youtube.com/watch?v=AwgODLLSgwU
-
 From these videos/posts, I learned how to write a jQuery script that scrolls to the top of a div. 
 
 https://stackoverflow.com/questions/5777674/how-can-i-clear-the-input-text-after-clicking
-
 I learned how to clear the input of a text field.
-## Known Problems, Issues, And/Or Errors in the Program
 
+https://stackoverflow.com/questions/72755101/pass-html-for-value-to-django-view-for-querying-database-models?rq=3
+From this post, I finally learned what I needed to do in order to enable comment submission from a "list view". Specifically, I needed to know how to pass a parameter into the form for submission, so that the comment could be added. Since there's no url change when using the comment submission form from the list view, I had to find another means of attaching the twit to the comment. After 4 days of research, this was the solution that finally worked for me.
+## Known Problems, Issues, And/Or Errors in the Program
+On the home page, the template renders out a modal for each Twit. I don't think this is the most optimal way of doing things. This would cause a lot of loading time if there were lots of twits in the database, since it would be rendering modals for each twit. (Perhaps pagination would be a good idea...?)
