@@ -7,6 +7,10 @@
     Testing Page
 {% endblock title %}
 
+{% block button_title %}
+Tweeter Testing Page
+{% endblock button_title %}
+
 {% block content %}
 <div class="container text-start">
     <div class="row align-items-start">
@@ -22,33 +26,41 @@
                         <div class="col">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
-                            <span class="text-muted"> | {{ twit.created|timesince }} ago</span>
-                        </div>
-                        <div class="col">      
-                        {% if twit.author == user %}
-                        <div class="text-end px-2 py-2">
+                           
+                                <span class=""> | {{ twit.created|timesince }} ago</span>
+                                
+                                {% if twit.updated != twit.created %}
+                                <span class="fst-italic text-muted"> | Edited: {{ twit.updated|timesince }} ago</span>
+                                {% endif %}
+                                    
                             
-                                <div class="dropend">
+                        </div>
+                        <div class="col-3">      
+                        {% if twit.author == user %}
+                        <!--  px-2 py-2 -->
+                        <div class="text-end position-relative top-50 start-50 translate-middle">
+                            
+                                <div class="dropstart">
                                     <button 
                                         id ="dropdownUser1"
                                         data-bs-toggle="dropdown"
                                         aria-expanded="false"
                                         type="button"
                                         class="btn rounded-pill btn-light"
-                                        style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: 1rem;"
+                                        style="--bs-btn-padding-y: 0; --bs-btn-padding-x: -.50rem; --bs-btn-font-size: 1rem; --bs-btn-bg: #fffdfd69; --bs-btn-border-color: #00000000;"
                                     > 
-                                            <i class="bi bi-three-dots-vertical"></i>
+                                            <i class="bi bi-three-dots"></i>
                                     </button>
                                     <!-- dropdown-menu-start -->
                                 <ul 
-                                    class="dropdown-menu align-middle p-0"     
+                                    class="dropdown-menu p-0"     
                                     aria-labelledby="dropdownUser1"
-                                    style="--bs-dropdown-bg: #fffdfd; --bs-dropdown-border-color: #ffffffc5; --bs-dropdown-border-radius: 1rem;"
+                                    style="--bs-dropdown-bg: #fffdfd69; --bs-dropdown-border-color: #ffffffc5; --bs-dropdown-border-radius: 1rem;"
                                     >
                                     <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
                                         <!-- <div class="d-grid gap-2 mx-auto"> -->
-                                            <span class="m-1"><a class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_edit" twit.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
-                                            <span class="m-1"><a class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_delete" twit.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
+                                            <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_edit" twit.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
+                                            <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_delete" twit.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
 
                                         <!-- </div> -->
                                         
@@ -68,7 +80,7 @@
                 </div>
                 <br>
                 <div>
-                    <p>this twit id: {{ twit.pk }}</p>
+                    
                     <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                     
                     {% if twit.image_url|length > 1 %}
@@ -112,19 +124,60 @@
                     <div class="card-body">
                         {% for comment in twit.comments.all|slice:3 %}
                         <div class="row">
-                            <div class="col">
-                                <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=25 %}" class="rounded-circle" alt="user image"></a>
-                                 <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span>{{ comment.created|timesince }} ago
+                            <div class="col-1">
+                                <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             </div>
-
-                            <div class="col-3">
+                            <div class="col ms-3 pt-2">
+                                <p style="font-size: small;">
+                                    <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
+                                 
+                                    <span class="text-muted"> {{ twit.created|timesince }} ago</span>
+                                    {% if twit.updated != twit.created %}
+                                <span class="fst-italic text-muted"> Edited: {{ twit.updated|timesince }} ago</span>
+                                {% endif %}
+                                </p>
+                                
+                                
+                            </div>
+                            
+                            
+                            <div class="col-1">      
                                 {% if comment.author == user %}
-                                    <div class="ms-3">
-                                        <a href="{% url "comment_edit" twit.pk comment.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                                        <a href="{% url "comment_delete" twit.pk comment.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
-                                    </div>
-                                 {% endif %}
+                                <div class="text-end">
+                                    
+                                        <div class="dropstart">
+                                            <button 
+                                                id ="dropdownUser1"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                                type="button"
+                                                class="btn rounded-pill btn-light"
+                                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: 1rem;"
+                                            > 
+                                                    <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <!-- dropdown-menu-start -->
+                                        <ul 
+                                            class="dropdown-menu align-middle p-0"     
+                                            aria-labelledby="dropdownUser1"
+                                            style="--bs-dropdown-bg: #b0b0b09f; --bs-dropdown-border-color: #00c6f8; --bs-dropdown-border-radius: 1rem;"
+                                            >
+                                            <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
+                                                <!-- <div class="d-grid gap-2 mx-auto"> -->
+                                                    <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_edit" twit.pk comment.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
+                                                    <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_delete" twit.pk comment.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
+        
+                                                <!-- </div> -->
+                                                
+                                        </ul>
+                                        </div>
+                                    
+                                </div>
+                                
+                                   
+                                {% endif %}
                             </div>
+                            
                         </div>
                         
                         
@@ -134,9 +187,11 @@
                         {% endfor %}
                     </div>
                     
-                        <div class="card-footer">
+                        
                             {% if twit.comments.count > 3 %}
-                            <a href="{% url 'twit_detail' twit.pk %}"><div class="card-footer">{{ twit.comments.count|subtract:"3" }} more comments</div></a>
+                            <div class="card-footer">
+                                <a href="{% url 'twit_detail' twit.pk %}"><div class="card-footer">{{ twit.comments.count|subtract:"3" }} more comments</div></a>
+                            </div>
                             {% endif %}
                                 <!-- Button trigger modal -->
 
@@ -149,7 +204,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Post a comment</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         
@@ -157,20 +212,62 @@
             
             <div class="text rounded-pill bg-info p-2">         
                 <div class="row">
-                    <div class="col">
+                    <div class="col-1">
                         <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
-                        <a class="text-muted" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
-                        <span class="text-muted"> | {{ twit.created|timesince }} ago</span>
                     </div>
-                    <div class="col-2">      
-                    {% if twit.author == user %}
-                    <div class="mt-2">
-                        <a class="align-middle" href="{% url "twit_edit" twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                        <a class="align-middle" href="{% url "twit_delete" twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                    <div class="col ms-3 pt-2">
+                        <p style="font-size: small;">
+                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
+                         
+                            <span class="text-muted"> {{ twit.created|timesince }} ago</span>
+                            {% if twit.updated != twit.created %}
+                        <span class="fst-italic text-muted"> Edited: {{ twit.updated|timesince }} ago</span>
+                        {% endif %}
+                        </p>
+                        
+                        
                     </div>
+                    
+                    
                        
-                    {% endif %}
-                    </div>
+                    
+                    
+                    <div class="col-1">      
+                        {% if twit.author == user %}
+                        <div class="text-end py-2">
+                            
+                                <div class="dropstart">
+                                    <button 
+                                        id ="dropdownUser1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        type="button"
+                                        class="btn rounded-pill btn-light"
+                                        style="--bs-btn-padding-y: 0; --bs-btn-padding-x: -.50rem; --bs-btn-font-size: 1rem; --bs-btn-bg: #fffdfd69; --bs-btn-border-color: #00000000;"
+                                    > 
+                                            <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <!-- dropdown-menu-start -->
+                                <ul 
+                                    class="dropdown-menu dropdown-menu-start align-middle p-0"     
+                                    aria-labelledby="dropdownUser1"
+                                    style="--bs-dropdown-bg: #b0b0b09f; --bs-dropdown-border-color: #00c6f8; --bs-dropdown-border-radius: 1rem;"
+                                    >
+                                    <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
+                                        <!-- <div class="d-grid gap-2 mx-auto"> -->
+                                            <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_edit" twit.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
+                                            <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_delete" twit.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
+
+                                        <!-- </div> -->
+                                        
+                                </ul>
+                                </div>
+                            
+                        </div>
+                        
+                           
+                        {% endif %}
+                        </div>
                 </div>
                
                 
@@ -179,7 +276,7 @@
             </div>
             <br>
             <div>
-                <p>this twit id: {{ twit.pk }}</p>
+                
                 <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                 
                 {% if twit.image_url|length > 1 %}
@@ -204,33 +301,24 @@
                 </p>
                 <hr>
                 <form action="{% url 'twit_detail' twit.pk %}" method="post">
-                    <p>This twit id: {{ twit.pk }}</p>
+                    
                     {% csrf_token %}
                     {{ form.body|as_crispy_field }}
                     
                     <input type="hidden" name="twit_id" value="{{ twit.id }}">
                     <span class="testspan" id="rchars">140</span> Character(s) Remaining</span>
-                    <p class="pt-2">
-                        <button class="btn btn-success ml-2" type="submit">Comment</button>
-                        <button 
-                            class="btn btn-danger ml-2" 
-                            type="button" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#collapseExample" 
-                            aria-expanded="false" 
-                            aria-controls="collapseExample"
-                        >Cancel</button>
-                    </p>
-                 </form>
+                    
+                 
                 
             </div>
             
         </div>
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-success ml-2">Comment</button>
+            <button type="button" class="btn btn-danger ml-2" id="btn-cancel-comment" data-bs-dismiss="modal">Cancel</button>
         </div>
+    </form>
       </div>
     </div>
   </div>
@@ -267,7 +355,7 @@
                               
                             </div>
                             {% endcomment %}
-                        </div>
+                        
                     
                     
                 

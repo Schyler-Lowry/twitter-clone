@@ -152,5 +152,11 @@ I learned how to clear the input of a text field.
 
 https://stackoverflow.com/questions/72755101/pass-html-for-value-to-django-view-for-querying-database-models?rq=3
 From this post, I finally learned what I needed to do in order to enable comment submission from a "list view". Specifically, I needed to know how to pass a parameter into the form for submission, so that the comment could be added. Since there's no url change when using the comment submission form from the list view, I had to find another means of attaching the twit to the comment. After 4 days of research, this was the solution that finally worked for me.
+
+https://stackoverflow.com/questions/4101258/how-do-i-add-a-placeholder-on-a-charfield-in-django
+Learned how to do placeholder text in form.
+
 ## Known Problems, Issues, And/Or Errors in the Program
 On the home page, the template renders out a modal for each Twit. I don't think this is the most optimal way of doing things. This would cause a lot of loading time if there were lots of twits in the database, since it would be rendering modals for each twit. (Perhaps pagination would be a good idea...?)
+
+My "characters remaining" javascript doesn't update automatically when you change a textarea. For example, if I start typing on one textarea, but then go to the next textarea, it still has the same value from the previous textarea - until I start typing again - then it updates. 

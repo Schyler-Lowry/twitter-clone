@@ -11,7 +11,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormMi
 from django.urls import reverse_lazy, reverse
 
 from .models import Twit, Comment
-from .forms import CommentForm
+from .forms import CommentForm, TwitForm
 
 """
 Posible TODO: Create a custom "list view" that enables comment posting from the list view home page.
@@ -152,11 +152,9 @@ class TwitCreateView(LoginRequiredMixin, CreateView):
     """twit create view"""
     model = Twit
     template_name = "twit_new.html"
+    form_class = TwitForm
+
     
-    fields = (
-        "body",
-        "image_url",
-    )
     def form_valid(self, form):
         """override form valid method"""
         form.instance.author = self.request.user
