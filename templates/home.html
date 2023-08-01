@@ -4,9 +4,7 @@
 {% load maths %}
 {% load helper_tags %}
 {% block title %}Tweeter{% endblock title %}
-{% block button_title %}
-Tweeter
-{% endblock button_title %}
+
 
 {% block content %}
     {% if user.is_authenticated %}
@@ -125,7 +123,7 @@ Tweeter
                                 <div class="col-1">
                                     <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                                 </div>
-                                <div class="col ms-3 pt-2">
+                                <div class="col pt-2">
                                     <p style="font-size: small;">
                                         <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
                                      

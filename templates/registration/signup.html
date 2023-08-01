@@ -3,15 +3,13 @@
 
 {% block title %}Tweeter - Sign Up{% endblock title %}
 
-{% block button_title %}
-Tweeter
-{% endblock button_title %}
 
-{% block content %}
+
+{% block login %}
     <h2>Sign Up</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
-{% endblock content %}
+{% endblock login %}

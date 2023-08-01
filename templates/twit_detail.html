@@ -2,12 +2,8 @@
 {% load crispy_forms_tags %}
 {% load helper_tags %}
 
-{% block title %}
-    Tweeter - Comments
-{% endblock title %}
-{% block button_title %}
-Tweeter
-{% endblock button_title %}
+
+
 
 {% block content %}
     <div class="col">
@@ -76,7 +72,7 @@ Tweeter
         </div>
     {% endif %}
         
-    <p>
+    <br>
         {% with user_likes=twit.likes.all %}
             <button
             data-id="{{ twit.id }}"
@@ -89,7 +85,7 @@ Tweeter
                 Likes
             </button>
         {% endwith %}
-    </p>
+    
         </div>
         
             
