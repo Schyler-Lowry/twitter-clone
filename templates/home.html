@@ -296,12 +296,17 @@
                         {% endwith %}
                     </p>
                     <hr>
-                    <form action="{% url 'twit_detail' twit.pk %}" method="post">
+                    {% comment NOTE_TO_FUTURE_SELF %}
+                    NOTE: The reason that you're able to post a comment from a list view is because you filled out the "action" attribute.
+                    There was no need for you to go through all of the trouble creating a fake list view that has post features.
+                    {% endcomment %}
+                    <form action="{% url 'twit_detail' twit.pk %}" method="post"> 
+                        
                         
                         {% csrf_token %}
                         {{ form.body|as_crispy_field }}
                         
-                        <input type="hidden" name="twit_id" value="{{ twit.id }}">
+                        
                         <span class="testspan" id="rchars">140</span> Character(s) Remaining</span>
                         
                      

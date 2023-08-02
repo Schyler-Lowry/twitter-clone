@@ -106,3 +106,87 @@ class TwitTests(TestCase):
         self.assertEqual(response.status_code, 302)
         
 # Need tests for: CommentForm, and UserProfileViews.
+
+class CommentTests(TestCase):
+    """comment tests"""
+    @classmethod
+    def setUpTestData(cls):
+        """set up initial test data"""
+        cls.custom_user = get_user_model().objects.create_user(
+            username = "testuser2", 
+            email = "test@tests.net", 
+            password = "secret",
+            date_of_birth = "2023-01-01"
+        )
+
+        cls.twit = Twit.objects.create(
+            author = cls.custom_user,
+            body = "my second test twit",
+            image_url = "https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg",
+        )
+
+        
+    
+    def test_twit_list_view(self):
+        self.client.force_login(self.custom_user)
+        response = self.client.get("/")
+        #print(response.content.decode())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Tweeter")
+        self.assertContains(response, "my second test twit")
+        self.assertTemplateUsed(response, "home.html")
+        
+
+    def test_comment_create_view(self):
+        self.client.force_login(self.custom_user)
+        response = self.client.post(
+            reverse("twit_detail", kwargs={"pk": self.twit.pk}),
+            {
+                "author": self.custom_user.pk,
+                "body": "test comment",
+            }, follow=True 
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "my second test twit")
+        self.assertContains(response, "test comment")
+        
+
+    def test_comment_update_view(self):
+        self.client.force_login(self.custom_user)
+        # had to recreate the comment again because the previous comment gets destroyed after "test_comment_create_view" finishes
+        comment = Comment.objects.create(
+            twit = self.twit,
+            author = self.custom_user,
+            body = "test comment for update view"
+        )
+        response = self.client.post(
+            reverse("comment_edit", kwargs={"twit_pk": self.twit.pk, "pk": comment.pk }),
+            {
+                "body": "updated comment",
+            }, follow=True # must be set to true to get to twit detail view that has the comment
+        )
+        # testing that the page renders the new comment
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "updated comment")
+        self.assertContains(response, "testuser2")
+        # testing the comment actually saved in the database
+        self.assertEqual(Comment.objects.last().body, "updated comment")       
+        self.assertEqual(Comment.objects.last().author.username, "testuser2")
+        
+    def test_comment_delete_view(self):
+        self.client.force_login(self.custom_user)
+        comment = Comment.objects.create(
+            twit = self.twit,
+            author = self.custom_user,
+            body = "test comment for delete view"
+        )
+        self.assertEqual(Comment.objects.count(), 1)
+        response = self.client.post(
+            reverse("comment_delete", kwargs={"twit_pk": self.twit.pk, "pk": comment.pk })
+        )
+        self.assertEqual(Comment.objects.count(), 0)
+
+
+        
+
+

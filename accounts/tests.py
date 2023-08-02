@@ -9,6 +9,15 @@ from .models import CustomUser
 # Create your tests here.
 class AccountsTests(TestCase):
     """tests for login/signup"""
+    @classmethod
+    def setUpTestData(cls):
+        """set up initial test data"""
+        cls.custom_user = get_user_model().objects.create_user(
+            username = "testuser1", 
+            email = "test@tests.net", 
+            password = "secret",
+            date_of_birth = "2023-01-01"
+        )
 
     def test_signup_view(self):
         """test signup view"""
@@ -34,3 +43,21 @@ class AccountsTests(TestCase):
             }
             , follow=True)
         self.assertTrue(response.context['user'].is_authenticated)
+
+    def test_user_update_view(self):
+        """test update user profile view"""
+        self.client.force_login(self.custom_user)
+        # self.assertEqual(CustomUser.objects.count(),1)
+        response = self.client.post(
+            reverse("user_change_profile", kwargs={"pk": self.custom_user.pk}),
+            {
+                "username": "testuser1",
+                "first_name": "Test",
+                "last_name": "User",
+            }, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        #print(response.content.decode())
+        self.assertTemplateUsed(response, "registration/user_profile.html")
+        self.assertEqual(CustomUser.objects.last().first_name, "Test")
+        self.assertContains(response, "Name: Test User")

@@ -16,8 +16,17 @@ from .forms import CommentForm, TwitForm
 """
 Posible TODO: Create a custom "list view" that enables comment posting from the list view home page.
               The purpose of this would be to remove the necessity of going to the twit detail page in order to make a comment.
+              
+              EDIT: DONE.
 """
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class TwitListWithCommentCreateView(LoginRequiredMixin, CreateView):
+    """this view shows all of the twits as a list, and enables commenting from the 'list view' 
+       Originally, this was my solution to being able to submit comments from a list view. 
+       This is no longer used in the project, as I was able to render this view useless, simply by filling out the "action" attribute in the form tag.
+       I'm keeping it here for future reference, however.
+    """
+
+
     success_url = reverse_lazy("testing")
     form_class = CommentForm
     template_name = "testing_page.html"
@@ -97,6 +106,7 @@ class CommentPostView(SingleObjectMixin, FormView):
         """get the success url"""
         twit = self.get_object()
         return reverse("twit_detail", kwargs={"pk": twit.pk})
+        #return reverse("home")
     
     
     
@@ -130,10 +140,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         """get the success url"""
         comment = self.get_object()
         return reverse("twit_detail", kwargs={"pk": comment.twit.pk})
-    # def get_success_url(self):
-    #     """get the success url"""
-    #     comment = self.get_object()
-    #     return reverse("twit_detail", kwargs={"pk": comment.twit.pk})
+
 
 class TwitListView(LoginRequiredMixin, ListView):
     """twit list view"""
@@ -160,10 +167,7 @@ class TwitCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-# class TwitDetailView(LoginRequiredMixin, DetailView):
-#     """twit detail view"""
-#     model = Twit
-#     template_name = "twit_detail.html"
+
 
 class TwitDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """twit delete view"""
