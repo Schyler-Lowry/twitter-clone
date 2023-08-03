@@ -37,6 +37,7 @@ class TwitListWithCommentCreateView(LoginRequiredMixin, CreateView):
         # because we don't want the form to actually fully save the model to the db yet.
         comment = form.save(commit=False)
         # Attach the twit to the new comment.
+        # this gets the parameter from the form tag in the template
         id = self.request.POST.get("twit_id")
         comment.twit = Twit.objects.get(pk=id)
         # Attach the logged in user to the new comment.
