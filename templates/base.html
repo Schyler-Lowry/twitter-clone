@@ -1,3 +1,10 @@
+<!-- 
+Schyler Lowry
+CIS218
+8/3/2023 
+-->
+
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-US">
@@ -15,11 +22,11 @@
             <header class="p-2 m-2 border rounded" style="background-color: #00c6f8;">
                 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button type="button" class="btn rounded-pill bg-light btn-lg ml-2">
-                        <a class="text-decoration-none link-dark" href="{% url 'home' %}">
+                    <a class="btn rounded-pill bg-light btn-lg ml-2 text-decoration-none link-dark" href="{% url 'home' %}">
+                        
                         <i class="bi bi-chat-quote"> </i>
                         Tweeter
-                </a></button>
+                </a>
                   </div>
                 
                 
@@ -51,12 +58,11 @@
                             
                             <div class="d-grid gap-2 mx-auto">
                                 
-                            
-                                <button type="button" class="{% if request.get_full_path == home %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ home }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-house mb-2"> </i>Home</button></a>
-                                <button class="{% if request.get_full_path == twit_new %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ twit_new }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-chat-quote mb-2"> </i> New Twit</button></a>
+                                <a href="{{ home }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none {% if request.get_full_path == home %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}" type="button"><span class=" icon-link icon-link-hover"><i class="bi bi-house mb-2"> </i>Home</span></a>
+                                <a href="{{ twit_new }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="{% if request.get_full_path == twit_new %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %} link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none"><span class=" icon-link icon-link-hover"><i class="bi bi-chat-quote mb-2"> </i> New Twit</span></a>
                                 {# <button class="{% if request.get_full_path == testing %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ testing }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-textarea-t mb-2"></i>Testing Page</button></a>                          #}
-                                <button class="{% if request.get_full_path == user_profile %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ user_profile }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none" ><i class="bi bi-person mb-2"></i> Your Profile</button></a>
-                                <button id="btn-back-to-top" class="btn btn-outline-info ml-2"><a href="#" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-arrow-up-circle mb-2"></i> <span class="">Back to top</span></button></a>
+                                <a href="{{ user_profile }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="{% if request.get_full_path == user_profile %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %} link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none" ><span class=" icon-link icon-link-hover"><i class="bi bi-person mb-2"></i> Your Profile</span></a>
+                                <button id="btn-back-to-top" class="btn btn-outline-info ml-2"><a href="#" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-arrow-up-circle mb-2"></i> <span class=" icon-link icon-link-hover">Back to top</span></a>
                                 
                                     
                                     <button 

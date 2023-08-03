@@ -1,3 +1,10 @@
+<!-- 
+Schyler Lowry
+CIS218
+8/3/2023 
+-->
+
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -13,31 +20,73 @@
 
 <div class="col">
     <div class="text rounded-pill bg-info p-2">
-        <a href="{% url "user_profile" comment.twit.author.pk %}"><img src="{% get_avatar_url email=comment.twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
-        <a href="{% url "user_profile" comment.twit.author.pk %}"><span class="fs-4 fw-bold">{{ comment.twit.author }}</span></a>
-            <span class="text-muted">| {{ comment.twit.created|timesince }} ago</span>
+        <div class="row">
+            <div class="col">
+                
+                    <a href="{% url "user_profile" comment.twit.author.pk %}"><img src="{% get_avatar_url email=comment.twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
+                    <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.twit.author.pk %}"><span class="fs-4 fw-bold">{{ comment.twit.author }}</span></a>
+                        <span >| {{ comment.twit.created|timesince }} ago</span>
+
+                        {% if comment.twit.updated > comment.twit.created %}
+                                    <span class="fst-italic text-muted"> | Edited: {{ comment.twit.updated|timesince }} ago</span>
+                                    {% endif %}
+                </div>
             
+            <div class="col-3">      
                 {% if comment.twit.author == user %}
-                    <a href="{% url "twit_edit" comment.twit.pk %}"><span class="badge rounded-pill bg-primary"><i class="bi bi-pencil"></i> Edit</span></a>
-                    <a href="{% url "twit_delete" comment.twit.pk %}"><span class="badge rounded-pill bg-danger"><i class="bi bi-trash"></i> Delete</span></a>
+                <!--  px-2 py-2 -->
+                <div class="text-end position-relative top-50 start-50 translate-middle">
+                    
+                        <div class="dropstart">
+                            <button 
+                                id ="dropdownUser1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                type="button"
+                                class="btn rounded-pill btn-light"
+                                style="--bs-btn-padding-y: 0; --bs-btn-padding-x: -.50rem; --bs-btn-font-size: 1rem; --bs-btn-bg: #fffdfd69; --bs-btn-border-color: #00000000;"
+                            > 
+                                    <i class="bi bi-three-dots"></i>
+                            </button>
+                            <!-- dropdown-menu-start -->
+                        <ul 
+                            class="dropdown-menu p-0"     
+                            aria-labelledby="dropdownUser1"
+                            style="--bs-dropdown-bg: #fffdfd69; --bs-dropdown-border-color: #ffffffc5; --bs-dropdown-border-radius: 1rem;"
+                            >
+                            <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
+                                <!-- <div class="d-grid gap-2 mx-auto"> -->
+                                    <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_edit" comment.twit.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
+                                    <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "twit_delete" comment.twit.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
+        
+                                <!-- </div> -->
+                                
+                        </ul>
+                        </div>
+                    
+                </div>
+                
+                   
                 {% endif %}
-    </div>
+                </div>
+            </div>
+</div>
             <br>
             
-                <p style="white-space: pre-line">{{ object.body }}</p>
+                <p style="white-space: pre-line">{{ comment.twit.body }}</p>
                 
         {% if comment.twit.image_url|length > 1 %}
             <div class="w-50">
                 <img src="{{ comment.twit.image_url }}" class="img-fluid" alt="">
             </div>
         {% endif %}
-            {% if comment.twit.updated != comment.twit.created %}
+            {% if comment.twit.updated > comment.twit.created %}
                 <p class="fst-italic">Updated {{ comment.twit.updated|timesince }} ago</p>
             {% else %}
                 <p></p>
             {% endif %}
         <p>
-            {% with user_likes=twit.likes.all %}
+            {% with user_likes=comment.twit.likes.all %}
                 <button
                 data-id="{{ comment.twit.id }}"
                 data-action="{% if user in user_likes %}un{% endif %}like"

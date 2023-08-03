@@ -1,3 +1,9 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
 from django.db import models
 from django.conf import settings
 from django.urls import reverse

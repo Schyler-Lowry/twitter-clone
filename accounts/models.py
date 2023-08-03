@@ -1,3 +1,9 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.db import models

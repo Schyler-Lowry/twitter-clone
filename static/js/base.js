@@ -1,3 +1,8 @@
+// Schyler Lowry
+// CIS218
+// 8/3/2023
+
+
 $(document).ready(function () {
     $(".like_button").click(function (event) {
         // The work we want to do on click.

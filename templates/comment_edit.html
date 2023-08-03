@@ -1,3 +1,10 @@
+<!-- 
+Schyler Lowry
+CIS218
+8/3/2023 
+-->
+
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -19,7 +26,7 @@
                     <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.twit.author.pk %}"><span class="fs-4 fw-bold">{{ comment.twit.author }}</span></a>
                         <span >| {{ comment.twit.created|timesince }} ago</span>
 
-                        {% if comment.twit.updated != comment.twit.created %}
+                        {% if comment.twit.updated > comment.twit.created %}
                                     <span class="fst-italic text-muted"> | Edited: {{ comment.twit.updated|timesince }} ago</span>
                                     {% endif %}
                 </div>
@@ -102,7 +109,7 @@
                         <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=25 %}" class="rounded-circle" alt="user image"></a>
                         <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span> 
                          
-                        {{ comment.created|timesince }} ago{% if comment.updated != comment.created %}
+                        {{ comment.created|timesince }} ago{% if comment.updated > comment.created %}
                         <span class="fst-italic">Updated {{ comment.updated|timesince }} ago</span>
                     {% endif %}
                         

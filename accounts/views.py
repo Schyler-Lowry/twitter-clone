@@ -1,3 +1,9 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
 from typing import Any, Dict
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView

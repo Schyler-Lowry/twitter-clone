@@ -1,3 +1,7 @@
+"""
+This code is provided by David Barnes, CIS218 Instructor at Kalamazoo Valley Community College.
+"""
+
 from hashlib import md5
 from django.template import Library
 

@@ -1,3 +1,8 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
 from django import template
 register = template.Library()
 

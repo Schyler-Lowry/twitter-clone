@@ -1,3 +1,9 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
 from django.urls import path
 from .views import SignUpView, UserProfileView, UserProfileChangeView, CommentCreateView
 from django.views.generic import RedirectView

@@ -1,3 +1,10 @@
+<!-- 
+Schyler Lowry
+CIS218
+8/3/2023 
+-->
+
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load helper_tags %}
@@ -15,7 +22,7 @@
                         <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
                      <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                     <span class="">| {{ twit.created|timesince }} ago</span>
-                                    {% if twit.updated != twit.created %}
+                                    {% if twit.updated > twit.created %}
                                     <span class="fst-italic text-muted"> | Edited: {{ twit.updated|timesince }} ago</span>
                                     {% endif %}
                     </div>
@@ -119,7 +126,7 @@
                              
                              <span class="fw-semibold"><a href="{% url "user_profile" comment.author.pk %}">{{ comment.author }}</a> &middot; </span>{{ comment.created|timesince }} ago
                                  
-                                 {% if comment.created != comment.updated %}
+                                 {% if comment.created > comment.updated %}
                                   <span class="fst-italic"> &middot; Edited: {{ comment.updated|timesince}} ago </span>
                                  {% endif %}
                         </div>
@@ -190,7 +197,7 @@
                                     <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
                                  
                                     <span class="text-muted"> &middot; {{ twit.created|timesince }} ago</span> 
-                                    {% if twit.updated != twit.created %}
+                                    {% if twit.updated > twit.created %}
                                         <span class="fst-italic text-muted"><br>Edited: {{ twit.updated|timesince }} ago</span>
                                         {% endif %}</p>
                                

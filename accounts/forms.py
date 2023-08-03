@@ -1,3 +1,9 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.forms.widgets import NumberInput, DateInput

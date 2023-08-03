@@ -1,3 +1,10 @@
+"""
+Schyler Lowry
+CIS218
+8/3/2023
+"""
+
+
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import models
