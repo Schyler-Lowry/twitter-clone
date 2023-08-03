@@ -123,7 +123,7 @@
                                 <div class="col-1">
                                     <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                                 </div>
-                                <div class="col pt-2">
+                                <div class="col ms-1 pt-2">
                                     <p style="font-size: small;">
                                         <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
                                      
@@ -316,9 +316,44 @@
             </div>
             
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success ml-2">Comment</button>
-                <button type="button" class="btn btn-danger ml-2" id="btn-cancel-comment" data-bs-dismiss="modal">Cancel</button>
-            </div>
+                <button class="btn btn-success ml-2" type="submit">Comment</button>                       
+                    
+                    
+                <div class="dropup" id="deleteMenu">
+                    <button 
+                        id="deleteMenu"
+                        class="btn btn-danger ml-2" 
+                        type="button"
+                        data-bs-toggle="dropdown" 
+                        data-bs-target="#deleteMenu" 
+                        aria-expanded="false" 
+                        aria-controls="deleteMenu"
+                    >Cancel</button>
+                    
+                        <ul class="dropdown-menu px-1 border border-danger"
+                        style="--bs-dropdown-min-width: 480px;"
+                        >
+                            <li class="">
+                                Are you sure you want to discard your comment? 
+                                <button 
+                                id="btn-cancel-comment"
+                                class="btn btn-outline-danger ml-2" 
+                                type="button"
+                                data-bs-dismiss="modal"
+                                style="--bs-btn-padding-x: 2rem;"
+                            >
+                                Discard
+                            </button>                           
+                            </li>
+                            
+                        </li>
+
+                    </ul>
+                    </div>
+                        
+                    
+                </div>
+            
         </form>
           </div>
         </div>

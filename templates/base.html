@@ -70,7 +70,7 @@
                                         {% if user.is_staff %}
                                         <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
                                         {% endif %}
-                                        <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'user_profile' user.pk %}">Your Profile</a></li>
+                                        <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'user_change_profile' user.pk %}">Edit Profile</a></li>
                                         <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
                                         <li class=""><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
                                     </ul>

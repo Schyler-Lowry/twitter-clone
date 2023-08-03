@@ -15,7 +15,7 @@ Tweeter - {{ customuser.username }}'s profile
             <div class="card-body">
                 <h5><img src="{% get_avatar_url email=customuser.email %}" class= "border border-info rounded-circle" alt="user image">
                      {% if customuser == user %}
-                    <span class="ps-3 ms-1"><a href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary">Edit Profile</a></span>
+                    <span class="ps-3 ms-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary icon-link icon-link-hover"><i class="bi bi-person-fill-gear mb-1"></i> Edit Profile</a></span>
                     {% endif %}
                 </h5>
                 <hr>
@@ -36,6 +36,13 @@ Tweeter - {{ customuser.username }}'s profile
         
         <div class="card">
             <div class="card-body">
+                
+                {% if customuser.twit_set.all|length == 0 %}
+                <p class="text-center"><span class="fst-italic fs-5">User has no Twits yet...</span></p>
+                {% endif %}
+                
+                
+                    
                 <div id="top" class="overflow-auto bg-light"
                 style="max-height: 800px;">
                 {% for twit in customuser.twit_set.all|dictsortreversed:"created" %}
@@ -47,7 +54,7 @@ Tweeter - {{ customuser.username }}'s profile
                             <span class=""> | {{ twit.created|timesince }} ago</span>
                                 
                                 {% if twit.updated != twit.created %}
-                                <span class="fst-italic text-muted">Edited: {{ twit.updated|timesince }} ago</span>
+                                <span class="fst-italic text-muted">| Edited: {{ twit.updated|timesince }} ago</span>
                                 {% endif %}
                         </div>
                         <div class="col-1">      
@@ -141,7 +148,7 @@ Tweeter - {{ customuser.username }}'s profile
                             <div class="col-1">
                                 <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             </div>
-                            <div class="col ms-3 pt-2">
+                            <div class="col ms-1 pt-2">
                                 <p style="font-size: small;">
                                     <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
                                  
@@ -243,7 +250,7 @@ Tweeter - {{ customuser.username }}'s profile
                         <div class="col-1">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                         </div>
-                        <div class="col ms-3">
+                        <div class="col pt-2 ms-3">
                             <p class="lh-1" style="font-size: small;">
                                 <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
                              
@@ -343,8 +350,40 @@ Tweeter - {{ customuser.username }}'s profile
             </div>
             
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success ml-2">Comment</button>
-                <button type="button" class="btn btn-danger ml-2" id="btn-cancel-comment" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-success ml-2" type="submit">Comment</button>                       
+                    
+                    
+                <div class="dropup-end dropup" id="deleteMenu">
+                    <button 
+                        id="deleteMenu"
+                        class="btn btn-danger ml-2" 
+                        type="button"
+                        data-bs-toggle="dropdown" 
+                        data-bs-target="#deleteMenu" 
+                        aria-expanded="false" 
+                        aria-controls="deleteMenu"
+                    >Cancel</button>
+                    
+                        <ul class="dropdown-menu px-1 border border-danger dropdown-menu-end"
+                        style="--bs-dropdown-min-width: 480px;"
+                        >
+                            <li class="">
+                                Are you sure you want to discard your comment? 
+                                <button 
+                                id="btn-cancel-comment"
+                                class="btn btn-outline-danger ml-2" 
+                                type="button"
+                                data-bs-dismiss="modal"
+                                style="--bs-btn-padding-x: 2rem;"
+                            >
+                                Discard
+                            </button>                           
+                            </li>
+                            
+                        </li>
+
+                    </ul>
+                    </div>
             </div>
         </form>
           </div>

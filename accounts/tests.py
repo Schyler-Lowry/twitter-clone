@@ -54,10 +54,12 @@ class AccountsTests(TestCase):
                 "username": "testuser1",
                 "first_name": "Test",
                 "last_name": "User",
-            }, follow=True
+            }
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, "/accounts/profile/1/")
         #print(response.content.decode())
-        self.assertTemplateUsed(response, "registration/user_profile.html")
+        post_response = self.client.get(reverse("user_profile", kwargs={"pk": self.custom_user.pk}))
+        self.assertTemplateUsed(post_response, "registration/user_profile.html")
         self.assertEqual(CustomUser.objects.last().first_name, "Test")
-        self.assertContains(response, "Name: Test User")
+        self.assertContains(post_response, "Name: Test User")

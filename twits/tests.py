@@ -40,12 +40,7 @@ class TwitTests(TestCase):
         self.assertEqual(self.twit.author.username, "testuser1")
         self.assertEqual(self.twit.body, "my test twit")
         self.assertEqual(self.twit.image_url, "https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg")
-        
-
-    def test_comment(self):
-        self.assertEqual(self.comment.author.username, "testuser1")
-        self.assertEqual(self.comment.twit.body, "my test twit")
-        self.assertEqual(self.comment.body, "test comment")
+    
     
     def test_twit_create_view(self):
         self.client.force_login(self.custom_user)
@@ -55,7 +50,6 @@ class TwitTests(TestCase):
                 "author": self.custom_user.pk,
                 "body": "my test twit for create view",
                 "image_url": "https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg",
-                "likes": self.custom_user.pk
             },
         )
         self.assertEqual(response.status_code, 302)
@@ -63,6 +57,9 @@ class TwitTests(TestCase):
         self.assertEqual(Twit.objects.last().image_url, "https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg")
         
 
+
+        
+        
         
     def test_twit_detail_view(self):
         self.client.force_login(self.custom_user)
@@ -75,11 +72,28 @@ class TwitTests(TestCase):
         self.assertContains(response, "testuser1")
         self.assertContains(response, '<img src="https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg" class="img-fluid" alt="">')
         self.assertContains(response, "test comment")
+        # might not need these two:
         self.twit.likes.set([self.custom_user,])
         self.assertEqual(self.twit.likes.count(), 1)
     
-    def test_twit_like_view(self):
-        pass
+    def test_twit_like_view(self):                
+        self.client.force_login(self.custom_user)
+        # twit should have 0 likes in the database     
+        self.assertEqual(self.twit.likes.count(), 0)
+        # call like url to add like
+        self.client.get("/1/like/?twit_id=1&twit_action=like")
+        # twit should now show 1 like in the database
+        self.assertEqual(self.twit.likes.count(), 1)
+        # test that custom_user exists in likes table
+        self.assertTrue(self.twit.likes.contains(self.custom_user))
+        # unlike twit
+        self.client.get("/1/like/?twit_id=1&twit_action=unlike")
+        # twit should now have 0 likes
+        self.assertEqual(self.twit.likes.count(), 0)
+        # test that custom_user no longer in likes table
+        self.assertFalse(self.twit.likes.contains(self.custom_user))
+
+
 
     def test_twit_update_view(self):
         self.client.force_login(self.custom_user)
@@ -108,6 +122,7 @@ class TwitTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home.html")
         self.assertContains(response, "New Twit")
+        # testing that user name shows up in side bar
         self.assertContains(response, "testuser1")
 
     def test_login_required_twit_list_view(self):
@@ -205,11 +220,10 @@ class CommentTests(TestCase):
 
         
     
-    def test_twit_detail_view(self):
-        """testing to make sure we're on the right page for this 2nd test twit"""
+    def test_twit_view(self):
+        """test to ensure twit renders on list view"""
         self.client.force_login(self.custom_user)
         response = self.client.get("/")
-        #print(response.content.decode())
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Tweeter")
         self.assertContains(response, "my second test twit")
@@ -224,11 +238,16 @@ class CommentTests(TestCase):
             {
                 "author": self.custom_user.pk,
                 "body": "test comment",
-            }, follow=True 
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "my second test twit")
-        self.assertContains(response, "test comment")
+            }
+        ) 
+        # should redirect now
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, "/1/") # url for twit detail
+        # need a different response variable to test that the comment shows on the page
+        post_response = self.client.get(reverse("twit_detail", kwargs={"pk": self.twit.pk}))
+        self.assertEqual(post_response.status_code, 200)
+        self.assertContains(post_response, "my second test twit")
+        self.assertContains(post_response, "test comment")
         
 
     def test_comment_update_view(self):
@@ -243,12 +262,14 @@ class CommentTests(TestCase):
             reverse("comment_edit", kwargs={"twit_pk": self.twit.pk, "pk": comment.pk }),
             {
                 "body": "updated comment",
-            }, follow=True # must be set to true to get to twit detail view that has the comment
+            }
         )
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, "/1/") # url for twit detail
         # testing that the page renders the new comment
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "updated comment")
-        self.assertContains(response, "testuser2")
+        post_response = self.client.get(reverse("twit_detail", kwargs={"pk": self.twit.pk}))
+        self.assertContains(post_response, "updated comment")
+        self.assertContains(post_response, "testuser2")
         # testing the comment actually saved in the database
         self.assertEqual(Comment.objects.last().body, "updated comment")       
         self.assertEqual(Comment.objects.last().author.username, "testuser2")
@@ -264,6 +285,7 @@ class CommentTests(TestCase):
         response = self.client.post(
             reverse("comment_delete", kwargs={"twit_pk": self.twit.pk, "pk": comment.pk })
         )
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Comment.objects.count(), 1)
     
     def test_user_passes_test_comment_edit_view(self):

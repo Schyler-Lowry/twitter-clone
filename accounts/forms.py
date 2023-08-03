@@ -14,7 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
                 # no need to provide pw
             )
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'})
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
 
 class CustomUserChangeForm(UserChangeForm):
@@ -31,6 +31,11 @@ class CustomUserChangeForm(UserChangeForm):
             "avatar",
         )
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'})
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
+        
+        help_texts = {
+            'email': 'Tweeter uses Gravatar to display your profile picture.',
+        }
+        
         
