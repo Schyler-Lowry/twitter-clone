@@ -7,31 +7,31 @@
 
 
 {% block content %}
-    {% if user.is_authenticated %}
-        
     
+    <div class="col">
         
-            <div class="card mb-3">
-                <div class="card-body bg-light">
-                    <div id="top" class="overflow-auto"
-                    style="max-height: 800px;">
-    
-                    {% for twit in twit_list|dictsortreversed:"created" %}
-                    <div class="rounded-pill bg-info p-2">      
-                        <div class="row">
-                            <div class="col">
-                                <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
-                                <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
-                               
-                                    <span class=""> | {{ twit.created|timesince }} ago</span>
-                                    
-                                    {% if twit.updated != twit.created %}
-                                    <span class="fst-italic text-muted"> | Edited: {{ twit.updated|timesince }} ago</span>
-                                    {% endif %}
-                                        
+        <div class="card">
+            <div class="card-body">
+                
+                
+                
+                
+                    
+                <div id="top" class="overflow-auto bg-light"
+                style="max-height: 800px;">
+                {% for twit in twit_list|dictsortreversed:"created" %}
+                <div class="text rounded-pill bg-info p-2">         
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
+                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+                            <span class=""> | {{ twit.created|timesince }} ago</span>
                                 
-                            </div>
-                            <div class="col-2">      
+                                {% if twit.updated != twit.created %}
+                                <span class="fst-italic text-muted">| Edited: {{ twit.updated|timesince }} ago</span>
+                                {% endif %}
+                        </div>
+                        <div class="col-1">      
                             {% if twit.author == user %}
                             <!--  px-2 py-2 -->
                             <div class="text-end position-relative top-50 start-50 translate-middle">
@@ -68,133 +68,146 @@
                                
                             {% endif %}
                             </div>
-                        </div>
-                       
-                        
-                        
-                        
                     </div>
-                    <br>
-                    <div>
-                        
-                        <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
-                        
-                        {% if twit.image_url|length > 1 %}
-                        <div class="w-50">
-                            <p><a href="{% url 'twit_detail' twit.pk %}"><img src="{{ twit.image_url }}" class="img-fluid" alt=""></a></p>
-                        </div>
-                        
-                        {% endif %}
-                        <p>
-                            {% with user_likes=twit.likes.all %}
-                                <button
-                                data-id="{{ twit.id }}"
-                                data-action="{% if user in user_likes %}un{% endif %}like"
-                                data-like-url="{{ twit.get_like_url }}"
-                                class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
-                                >
-                                    <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
-                                    <span class="like_count">{{ user_likes|length }}</span>
-                                    Likes
-                                </button>
-                            {% endwith %}
-                        </p>
-                        
-                    </div>
-                    <p><a 
-                            href="/{{ twit.id }}" 
-                            class="btn btn-success btn-sm ml-2 icon-link icon-link-hover" 
-                            style="--bs-icon-link-transform: translate3d(0, -.15rem, 0); --bs-link-hover-color-rgb: 25, 135, 84;" 
-                            data-bs-toggle="modal" data-bs-target="#modal{{ twit.id }}" 
-                            id="modalOpen"
-                        >
-                            <i class="bi bi-chat mb-1"></i> Comment
-                        </a>
-                    </p>
-                    {# <p><a href="{% url 'twit_detail' twit.pk %}" class="btn btn-success btn-sm ml-2"><i class="bi bi-chat"></i> Comment</a></p> #}
-                    {% if twit.comments.count >= 1 %}
-                      
-                      {{ twit.comments.count }} comments
+                   
                     
-                    <div class="card w-75">
-                        <div class="card-body">
-                            {% for comment in twit.comments.all|slice:3 %}
-                            <div class="row">
-                                <div class="col-1">
-                                    <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
-                                </div>
-                                <div class="col ms-1 pt-2">
-                                    <p style="font-size: small;">
-                                        <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
-                                     
-                                        <span class="text-muted"> {{ comment.created|timesince }} ago</span>
-                                        {% if comment.updated != comment.created %}
-                                    <span class="fst-italic text-muted"> Edited: {{ comment.updated|timesince }} ago</span>
-                                    {% endif %}
-                                    </p>
-                                    
-                                    
-                                </div>
+                    
+                    
+                </div>
+                <br>
+                <div>
+                    
+                    <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
+                    
+                    {% if twit.image_url|length > 1 %}
+                    <div class="w-50">
+                        <p><a href="{% url 'twit_detail' twit.pk %}"><img src="{{ twit.image_url }}" class="img-fluid" alt=""></a></p>
+                    </div>
+                    
+                    {% endif %}
+                    <p>
+                        {% with user_likes=twit.likes.all %}
+                            <button
+                            data-id="{{ twit.id }}"
+                            data-action="{% if user in user_likes %}un{% endif %}like"
+                            data-like-url="{{ twit.get_like_url }}"
+                            class="like_button btn btn-{% if user not in user_likes %}outline-{% endif %}primary"
+                            >
+                                <i class="like_icon bi-hand-thumbs-up{% if user in user_likes %}-fill{% endif %}"></i>
+                                <span class="like_count">{{ user_likes|length }}</span>
+                                Likes
+                            </button>
+                        {% endwith %}
+                    </p>
+                    
+                </div>
+                <p><a 
+                    href="/{{ twit.id }}" 
+                    class="btn btn-success btn-sm ml-2 icon-link icon-link-hover" 
+                    style="--bs-icon-link-transform: translate3d(0, -.15rem, 0); --bs-link-hover-color-rgb: 25, 135, 84;" 
+                    data-bs-toggle="modal" data-bs-target="#modal{{ twit.id }}" 
+                    id="modalOpen"
+                >
+                    <i class="bi bi-chat mb-1"></i> Comment
+                </a></p>
+                
+                {% if twit.comments.count >= 1 %}
+                  
+                  {{ twit.comments.count }} comments
+                
+                <div class="card w-75">
+                    <div class="card-body">
+                        {% for comment in twit.comments.all|slice:3 %}
+                        <div class="row">
+                            <div class="col-1">
+                                <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
+                            </div>
+                            <div class="col ms-1 pt-2">
+                                <p style="font-size: small;">
+                                    <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
+                                 
+                                    <span class="text-muted"> {{ comment.created|timesince }} ago</span>
+                                    {% if comment.updated != comment.created %}
+                                <span class="fst-italic text-muted"> Edited: {{ comment.updated|timesince }} ago</span>
+                                {% endif %}
+                                </p>
                                 
-                                
-                                <div class="col-1">      
-                                    {% if comment.author == user %}
-                                    <div class="text-end">
-                                        
-                                            <div class="dropstart">
-                                                <button 
-                                                    id ="dropdownUser1"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                    type="button"
-                                                    class="btn rounded-pill btn-light"
-                                                    style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: 1rem;"
-                                                > 
-                                                        <i class="bi bi-three-dots"></i>
-                                                </button>
-                                                <!-- dropdown-menu-start -->
-                                            <ul 
-                                                class="dropdown-menu align-middle p-0"     
-                                                aria-labelledby="dropdownUser1"
-                                                style="--bs-dropdown-bg: #b0b0b09f; --bs-dropdown-border-color: #00c6f8; --bs-dropdown-border-radius: 1rem;"
-                                                >
-                                                <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
-                                                    <!-- <div class="d-grid gap-2 mx-auto"> -->
-                                                        <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_edit" twit.pk comment.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
-                                                        <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_delete" twit.pk comment.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
-            
-                                                    <!-- </div> -->
-                                                    
-                                            </ul>
-                                            </div>
-                                        
-                                    </div>
-                                    
-                                       
-                                    {% endif %}
-                                </div>
                                 
                             </div>
                             
                             
-                                <p style="white-space: pre-line">{{ comment.body }}</p>
-                        
-                                <hr>
-                            {% endfor %}
+                            <div class="col-1">      
+                                {% if comment.author == user %}
+                                <div class="text-end">
+                                    
+                                        <div class="dropstart">
+                                            <button 
+                                                id ="dropdownUser1"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                                type="button"
+                                                class="btn rounded-pill btn-light"
+                                                style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: 1rem;"
+                                            > 
+                                                    <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <!-- dropdown-menu-start -->
+                                        <ul 
+                                            class="dropdown-menu align-middle p-0"     
+                                            aria-labelledby="dropdownUser1"
+                                            style="--bs-dropdown-bg: #b0b0b09f; --bs-dropdown-border-color: #00c6f8; --bs-dropdown-border-radius: 1rem;"
+                                            >
+                                            <!-- style="--bs-dropdown-bg: #00000000; --bs-dropdown-border-color: #00000000; --bs-dropdown-padding-y: 0rem;" -->
+                                                <!-- <div class="d-grid gap-2 mx-auto"> -->
+                                                    <span class="m-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-primary m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_edit" twit.pk comment.pk %}"><i class="bi bi-pencil"></i> Edit</span></a>
+                                                    <span class=""><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" class="badge rounded-pill btn-sm bg-danger m-1 nav-link px-2 link-light icon-link icon-link-hover" href="{% url "comment_delete" twit.pk comment.pk %}"><i class="bi bi-trash"></i> Delete</span></a>
+        
+                                                <!-- </div> -->
+                                                
+                                        </ul>
+                                        </div>
+                                    
+                                </div>
+                                
+                                   
+                                {% endif %}
+                            </div>
+                            
                         </div>
                         
-                            
-                                {% if twit.comments.count > 3 %}
-                                
-                                    <a href="{% url 'twit_detail' twit.pk %}"><div class="card-footer">{{ twit.comments.count|subtract:"3" }} more comments</div></a>
-                                
-                                {% endif %}
-                                    <!-- Button trigger modal -->
+                        
+                            <p style="white-space: pre-line">{{ comment.body }}</p>
+                    
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    {% if twit.comments.count > 3 %}
+                        <a href="{% url 'twit_detail' twit.pk %}"><div class="card-footer">{{ twit.comments.count|subtract:"3" }} more comments</div></a>
+                    {% endif %}
+                    
+                
+
+                </div>
+                {% else %}
+            
+                    
+                    <p class="fst-italic">No comments yet</p>
+
+                    
+                    {% endif %}
+ 
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+        
+        </div>
+    </div>
     
-     {% comment  %}
-         <a href="/{{ twit.id }}"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ twit.id }}" id="modalOpen">modal open</a>
-     {% endcomment %}
-      {% for twit in twit_list|dictsortreversed:"created" %} 
+    
+    
+
+    {% for twit in twit_list|dictsortreversed:"created" %} 
       <!-- Modal -->
       <div class="modal fade" id="modal{{ twit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -228,9 +241,9 @@
                            
                         
                         
-                        <div class="col-1 me-1">      
+                        <div class="col-1">      
                             {% if twit.author == user %}
-                            <div class="text-end pt-2">
+                            <div class="text-end py-2">
                                 
                                     <div class="dropstart">
                                         <button 
@@ -296,17 +309,12 @@
                         {% endwith %}
                     </p>
                     <hr>
-                    {% comment NOTE_TO_FUTURE_SELF %}
-                    NOTE: The reason that you're able to post a comment from a list view is because you filled out the "action" attribute.
-                    There was no need for you to go through all of the trouble creating a fake list view that has post features.
-                    {% endcomment %}
-                    <form action="{% url 'twit_detail' twit.pk %}" method="post"> 
-                        
+                    <form action="{% url 'twit_detail' twit.pk %}" method="post">
                         
                         {% csrf_token %}
                         {{ form.body|as_crispy_field }}
                         
-                        
+                        <input type="hidden" name="twit_id" value="{{ twit.id }}">
                         <span class="testspan" id="rchars">140</span> Character(s) Remaining</span>
                         
                      
@@ -319,7 +327,7 @@
                 <button class="btn btn-success ml-2" type="submit">Comment</button>                       
                     
                     
-                <div class="dropup" id="deleteMenu">
+                <div class="dropup-end dropup" id="deleteMenu">
                     <button 
                         id="deleteMenu"
                         class="btn btn-danger ml-2" 
@@ -330,7 +338,7 @@
                         aria-controls="deleteMenu"
                     >Cancel</button>
                     
-                        <ul class="dropdown-menu px-1 border border-danger"
+                        <ul class="dropdown-menu px-1 border border-danger dropdown-menu-end"
                         style="--bs-dropdown-min-width: 480px;"
                         >
                             <li class="">
@@ -350,73 +358,11 @@
 
                     </ul>
                     </div>
-                        
-                    
-                </div>
-            
+            </div>
         </form>
           </div>
         </div>
       </div>
       {% endfor %}
-    
-                                {% comment block  %}
-                                    
-                                
-                                <button class="btn btn-primary dropdown-toggle border border-2 border-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Add a comment
-                                  </button>
-                                </p>
-                                <div class="collapse" id="collapseExample">
-                                  
-                                    <form action="" method="post">
-                                        <p>This twit id: {{ twit.pk }}</p>
-                                        {% csrf_token %}
-                                        {{ form.body|as_crispy_field }}
-                                        
-                                        <input type="hidden" name="twit_id" value="{{ twit.id }}">
-                                        <span id="rchars">140</span> Character(s) Remaining</span>
-                                        <p class="pt-2">
-                                            <button class="btn btn-success ml-2" type="submit">Comment</button>
-                                            <button 
-                                                class="btn btn-danger ml-2" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#collapseExample" 
-                                                aria-expanded="false" 
-                                                aria-controls="collapseExample"
-                                            >Cancel</button>
-                                        </p>
-                                     </form>
-                                  
-                                </div>
-                                {% endcomment %}
-                            
-                        
-                        
-                    
-    
-                    </div>
-                    
-                        {% else %}
-                        <div class="card-footer">
-                            <p class="fst-italic">No comments yet</p>
-                        </div>
-                        
-                        
-                        {% endif %}
-                    <hr>
-                
-                    {% endfor %}
-                </div>
-                </div>
-            </div>
-          
-    
-    {% else %}
-        <p>You are not logged in</p>    
-        <a href="{% url 'login' %}">Login</a> |
-        <a href="{% url 'signup' %}">Sign Up</a>
-    {% endif %}    
-{% endblock content %}
+    {% endblock content %}
 
