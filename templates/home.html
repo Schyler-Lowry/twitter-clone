@@ -34,7 +34,8 @@ CIS218
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                             <span class=""> | {{ twit.created|timesince }} ago</span>
                                 
-                                {% if twit.updated > twit.created %}
+                            {# {% if twit.created < twit.updated %} #}
+                                {% if twit.updated != twit.created %}
                                 <span class="fst-italic text-muted">| Edited: {{ twit.updated|timesince }} ago</span>
                                 {% endif %}
                         </div>
@@ -83,7 +84,12 @@ CIS218
                 </div>
                 <br>
                 <div>
-                    
+                    <p>
+                        <ul>
+                            <li>Created: {{ twit.created|date:"m/d/y H:i:s:u" }} </li>
+                            <li>Updated: {{ twit.updated|date:"m/d/y H:i:s:u" }} </li>
+                        </ul>
+                    </p>
                     <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                     
                     {% if twit.image_url|length > 1 %}
