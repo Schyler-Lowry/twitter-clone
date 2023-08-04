@@ -35,7 +35,7 @@ CIS218
                             <span class=""> | {{ twit.created|timesince }} ago</span>
                                 
                             {# {% if twit.created < twit.updated %} #}
-                                {% if twit.updated != twit.created %}
+                                {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
                                 <span class="fst-italic text-muted">| Edited: {{ twit.updated|timesince }} ago</span>
                                 {% endif %}
                         </div>
@@ -85,6 +85,14 @@ CIS218
                 <br>
                 <div>
                     
+                    {% comment display_time_in_milliseconds_logic %}
+                        <p>
+                            <ul>
+                                <li>Created: {{ twit.created|date:"m/d/y H:i:s:u" }} </li>
+                                <li>Updated: {{ twit.updated|date:"m/d/y H:i:s:u" }} </li>
+                            </ul>
+                        </p>
+                    {% endcomment %}
                     <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                     
                     {% if twit.image_url|length > 1 %}
