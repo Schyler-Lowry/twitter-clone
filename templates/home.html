@@ -143,7 +143,7 @@ CIS218
                                     <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
                                  
                                     <span class="text-muted"> {{ comment.created|timesince }} ago</span>
-                                    {% if comment.updated > comment.created %}
+                                    {% if comment.updated|date:"m/d/y H:i:s" != comment.created|date:"m/d/y H:i:s" %}
                                 <span class="fst-italic text-muted"> Edited: {{ comment.updated|timesince }} ago</span>
                                 {% endif %}
                                 </p>
@@ -245,7 +245,7 @@ CIS218
                                 <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
                              
                                 <span class="text-muted"> &middot; {{ twit.created|timesince }} ago</span> 
-                                {% if twit.updated > twit.created %}
+                                {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
                                     <span class="fst-italic text-muted"><br>Edited: {{ twit.updated|timesince }} ago</span>
                                     {% endif %}</p>
                            

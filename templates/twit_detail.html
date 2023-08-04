@@ -22,7 +22,7 @@ CIS218
                         <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>
                      <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                     <span class="">| {{ twit.created|timesince }} ago</span>
-                                    {% if twit.updated > twit.created %}
+                                    {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
                                     <span class="fst-italic text-muted"> | Edited: {{ twit.updated|timesince }} ago</span>
                                     {% endif %}
                     </div>
@@ -197,7 +197,7 @@ CIS218
                                     <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
                                  
                                     <span class="text-muted"> &middot; {{ twit.created|timesince }} ago</span> 
-                                    {% if twit.updated > twit.created %}
+                                    {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
                                         <span class="fst-italic text-muted"><br>Edited: {{ twit.updated|timesince }} ago</span>
                                         {% endif %}</p>
                                
