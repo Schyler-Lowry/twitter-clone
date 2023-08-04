@@ -164,3 +164,4 @@ On the home page, the template renders out a modal for each Twit. I don't think 
 
 My "characters remaining" javascript doesn't update automatically when you change a textarea. For example, if I start typing on one textarea, but then go to the next textarea, it still has the same value from the previous textarea - until I start typing again - then it updates. 
 
+The other main issue is that it looks awful on mobile. Actually, it's practically unusable. Now I need to learn how to edit for mobile too....
