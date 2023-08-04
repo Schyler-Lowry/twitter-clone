@@ -84,12 +84,7 @@ CIS218
                 </div>
                 <br>
                 <div>
-                    <p>
-                        <ul>
-                            <li>Created: {{ twit.created|date:"m/d/y H:i:s:u" }} </li>
-                            <li>Updated: {{ twit.updated|date:"m/d/y H:i:s:u" }} </li>
-                        </ul>
-                    </p>
+                    
                     <p style="white-space: pre-line">{{ twit.body }}</p> {# This isn't supposed to be here, e.g., it's not what the book does. The style tag was for my own sanity #}
                     
                     {% if twit.image_url|length > 1 %}
