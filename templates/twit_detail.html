@@ -117,8 +117,14 @@ CIS218
     
             <div class="card">
             <div class="card-body">
+                {% if twit.comments.count == 0 %}
+                No comments yet.
+                {% endif %}
                 <div id="top" class="overflow-auto"
                 style="max-height: 400px;">
+                    
+                
+                
                     {% for comment in twit.comments.all %} {# Appended '_set' allows you to do queries on the object. Then .all is a query method you can append to get all objects. #}
                     <div class="row">
                         <div class="col">
