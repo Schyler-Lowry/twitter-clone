@@ -22,6 +22,9 @@ class CustomUserCreationForm(UserCreationForm):
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
+        help_texts = {
+            'email': 'Tweeter uses Gravatar to display your profile picture.',
+        }
 
 class CustomUserChangeForm(UserChangeForm):
     """customer user change form"""
