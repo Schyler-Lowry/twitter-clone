@@ -17,6 +17,8 @@ class CustomUserCreationForm(UserCreationForm):
                 "username",
                 "email",
                 "date_of_birth",
+                "first_name",
+                "last_name",
                 # no need to provide pw
             )
         widgets = {
@@ -37,7 +39,6 @@ class CustomUserChangeForm(UserChangeForm):
             "date_of_birth",
             "first_name",
             "last_name",
-            "avatar",
         )
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),

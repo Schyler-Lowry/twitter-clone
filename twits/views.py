@@ -20,17 +20,13 @@ from django.urls import reverse_lazy, reverse
 from .models import Twit, Comment
 from .forms import CommentForm, TwitForm
 
-"""
-Posible TODO: Create a custom "list view" that enables comment posting from the list view home page.
-              The purpose of this would be to remove the necessity of going to the twit detail page in order to make a comment.
-              
-              EDIT: DONE.
-"""
+
 class TwitListWithCommentCreateView(LoginRequiredMixin, CreateView):
-    """this view shows all of the twits as a list, and enables commenting from the 'list view' 
-       Originally, this was my solution to being able to submit comments from a list view. 
-       This is no longer used in the project, as I was able to render this view useless, simply by filling out the "action" attribute in the form tag.
-       I'm keeping it here for future reference, however.
+    """
+    this view shows all of the twits as a list, and enables commenting from the 'list view' 
+    Originally, this was my solution to being able to submit comments from a list view. 
+    This is no longer used in the project, as I was able to render this view useless, simply by filling out the "action" attribute in the form tag.
+    I'm keeping it here for future reference, however.
     """
 
 
@@ -87,6 +83,7 @@ class CommentGetView(DetailView):
         return context
     
 class CommentPostView(SingleObjectMixin, FormView):
+    """comment post view"""
     model = Twit
     form_class = CommentForm
     template_name = "twit_detail.html"

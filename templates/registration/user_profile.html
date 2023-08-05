@@ -250,7 +250,7 @@ Tweeter - {{ customuser.username }}'s profile
     
     
 
-    {% for twit in twit_list|dictsortreversed:"created" %} 
+    {% for twit in customuser.twit_set.all|dictsortreversed:"created" %} 
       <!-- Modal -->
       <div class="modal fade" id="modal{{ twit.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

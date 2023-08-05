@@ -79,6 +79,7 @@ $('#btn-cancel-comment').click(function() {
 
 // When user opens modal, adds the twit id hash to the url
 // ugly solution, and unnecessary, but I wanted to try something unfamiliar
+// I wanted it to add "/comment" after the twit id
   $(document).ready(function(){
     $(window.location.hash).modal('show');
     $('a[data-bs-toggle="modal"]').click(function(){

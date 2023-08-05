@@ -53,7 +53,6 @@ class AccountsTests(TestCase):
     def test_user_update_view(self):
         """test update user profile view"""
         self.client.force_login(self.custom_user)
-        # self.assertEqual(CustomUser.objects.count(),1)
         response = self.client.post(
             reverse("user_change_profile", kwargs={"pk": self.custom_user.pk}),
             {

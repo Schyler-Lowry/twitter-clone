@@ -26,7 +26,7 @@ class Twit(models.Model):
 
     def __str__(self):
         """Twit as a string"""
-        return self.body
+        return self.body[:30]
     
     def get_absolute_url(self):
         return reverse('twit_detail', kwargs={'pk': self.pk})
@@ -52,8 +52,5 @@ class Comment(models.Model):
 
     def __str__(self):
         """comment as a string"""
-        return self.body
+        return self.body[:30]
     
-    # this needs to be fixed:
-    def get_absolute_url(self):
-        return reverse('twit_list')

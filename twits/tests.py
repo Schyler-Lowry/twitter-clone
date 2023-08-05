@@ -40,16 +40,19 @@ class TwitTests(TestCase):
         )
 
     def test_user(self):
+        """test initial user exists"""
         self.assertEqual(self.custom_user.username, "testuser1")
         self.assertEqual(self.custom_user.date_of_birth, "2023-01-01")
 
     def test_twit(self):
+        """test initial twit exists"""
         self.assertEqual(self.twit.author.username, "testuser1")
         self.assertEqual(self.twit.body, "my test twit")
         self.assertEqual(self.twit.image_url, "https://i.pinimg.com/564x/a2/b2/c6/a2b2c68e4d3e4126816424920fcdd4fe.jpg")
     
     
     def test_twit_create_view(self):
+        """test twit create view"""
         self.client.force_login(self.custom_user)
         response = self.client.post(
             reverse( "twit_new"),
@@ -69,6 +72,7 @@ class TwitTests(TestCase):
         
         
     def test_twit_detail_view(self):
+        """test twit detail view"""
         self.client.force_login(self.custom_user)
         response = self.client.get(reverse("twit_detail", kwargs={"pk": self.twit.pk}))
         no_response = self.client.get("/1000/")
@@ -83,7 +87,8 @@ class TwitTests(TestCase):
         self.twit.likes.set([self.custom_user,])
         self.assertEqual(self.twit.likes.count(), 1)
     
-    def test_twit_like_view(self):                
+    def test_twit_like_view(self):    
+        """test twit like view"""            
         self.client.force_login(self.custom_user)
         # twit should have 0 likes in the database     
         self.assertEqual(self.twit.likes.count(), 0)
@@ -103,6 +108,7 @@ class TwitTests(TestCase):
 
 
     def test_twit_update_view(self):
+        """test twit update view"""
         self.client.force_login(self.custom_user)
         response = self.client.post(
             reverse("twit_edit", kwargs={"pk": self.twit.pk}),
@@ -115,6 +121,7 @@ class TwitTests(TestCase):
         self.assertEqual(Twit.objects.last().image_url, "")
 
     def test_twit_delete_view(self):
+        """test twit delete view"""
         self.client.force_login(self.custom_user)
         response = self.client.post(
             reverse("twit_delete", args="1")
@@ -239,6 +246,7 @@ class CommentTests(TestCase):
         
 
     def test_comment_create_view(self):
+        """test comment create view"""
         self.client.force_login(self.custom_user)
         response = self.client.post(
             reverse("twit_detail", kwargs={"pk": self.twit.pk}),
@@ -258,6 +266,7 @@ class CommentTests(TestCase):
         
 
     def test_comment_update_view(self):
+        """test comment update view"""
         self.client.force_login(self.custom_user)
         # had to recreate the comment again because the previous comment gets destroyed after "test_comment_create_view" finishes
         comment = Comment.objects.create(
@@ -282,6 +291,7 @@ class CommentTests(TestCase):
         self.assertEqual(Comment.objects.last().author.username, "testuser2")
         
     def test_comment_delete_view(self):
+        """test comment delete view"""
         self.client.force_login(self.custom_user)
         comment = Comment.objects.create(
             twit = self.twit,
