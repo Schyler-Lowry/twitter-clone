@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Assignment 4 - Creating Tweeter (A Twitter Clone)
 
 ## Author
@@ -165,3 +166,7 @@ On the home page, the template renders out a modal for each Twit. I don't think 
 My "characters remaining" javascript doesn't update automatically when you change a textarea. For example, if I start typing on one textarea, but then go to the next textarea, it still has the same value from the previous textarea - until I start typing again - then it updates. 
 
 The other main issue is that it looks awful on mobile. Actually, it's practically unusable. Now I need to learn how to edit for mobile too....
+=======
+# twitter-clone
+This was a project for my web development class at my college. We had to design a twitter clone (called "Tweeter"). It features full CRUD operations, elegant styling (at least I'd like to say it does), and connects with a PostgreSQL database.
+>>>>>>> 9442f7dbd47fe6baffd119915f6afcb76ad1b1be
