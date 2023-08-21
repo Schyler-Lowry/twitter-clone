@@ -9,6 +9,13 @@ CIS218
 {% block title %}Tweeter - Login{% endblock title %} 
 
 {% block login %}
+
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    <span class="fw-bold">Note <i class="bi bi-exclamation-circle"></i> </span>You need to be logged in to see the site. You don't need to provide a real email to signup. This is just for demo purposes.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+
     <h2>Login</h2>
     <form method="POST">
         {% csrf_token %}
