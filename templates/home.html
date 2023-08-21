@@ -15,7 +15,7 @@ CIS218
 
 {% block content %}
     
-    <div class="col">
+    <div class="col-sm">
         
         <div class="card vh-100">
             <div class="card-body h-75">
@@ -28,7 +28,7 @@ CIS218
                 {% for twit in twit_list|dictsortreversed:"created" %}
                 <div class="text rounded-pill bg-info p-2">         
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                             <span class=""> | {{ twit.created|timesince }} ago</span>
@@ -200,7 +200,7 @@ CIS218
                         <a href="{% url 'twit_detail' twit.pk %}">
                             <div class="card-footer bg-white">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-sm">
                                         {{ twit.comments.count|subtract:"3" }} more comments 
                                     </div>
                                     <div class="col-1 text-end">

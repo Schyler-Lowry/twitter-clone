@@ -44,15 +44,16 @@ CIS218
             <div class="row align-items-start">
                 
                 
-                    
-                <div class="col">
-                    {% block content %}
-                    {% endblock content %}
-                </div>
+                    {% comment navbar_xpand %}
+                    <!-- <div class="col-sm-3 sticky-top navbar navbar-expand-sm" aria-expanded="false" >
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button> -->
+                    {% endcomment %}
                 
-                <div class="col-3 sticky-top">
-                    
-                    <div class="card">
+                
+                <div class="col-sm-3 sticky-top pb-3">
+                    <div class="card" id="navbarCollapse">
                         <div class="card-body">
                             <!-- <button class="btn btn-light border border-2 border-info ml-2"></button> -->
                             
@@ -62,6 +63,7 @@ CIS218
                                 <a href="{{ twit_new }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="{% if request.get_full_path == twit_new %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %} link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none"><span class=" icon-link icon-link-hover"><i class="bi bi-chat-quote mb-2"> </i> New Twit</span></a>
                                 {# <button class="{% if request.get_full_path == testing %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %}"><a href="{{ testing }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-textarea-t mb-2"></i>Testing Page</button></a>                          #}
                                 <a href="{{ user_profile }}" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="{% if request.get_full_path == user_profile %}btn btn-info ml-2{% else %}btn btn-outline-info ml-2{% endif %} link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none" ><span class=" icon-link icon-link-hover"><i class="bi bi-person mb-2"></i> Your Profile</span></a>
+
                                 <button id="btn-back-to-top" class="btn btn-outline-info ml-2"><a href="#" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover icon-link icon-link-hover text-decoration-none"><i class="bi bi-arrow-up-circle mb-2"></i> <span class=" icon-link icon-link-hover">Back to top</span></a>
                                 
                                     
@@ -80,6 +82,9 @@ CIS218
                                         <li class="border-bottom border-black"><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
                                         <li class=""><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
                                     </ul>
+                                    {% if request.get_full_path == custom_user_profile %}
+                                    <a href="{{ user_profile }}"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="btn btn-outline-info ml-2  link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none" ><span class=" icon-link icon-link-hover"><i class="bi bi-person mb-2"></i> Toggle User Details</span></a>
+                                    {% endif %}
                                 
                                     
                                 
@@ -89,10 +94,17 @@ CIS218
                     </div>
                     {% if request.get_full_path == custom_user_profile %}
                     
-                    {% block user_profile_column %}
+                        {% block user_profile_column %}
                     {% endblock user_profile_column %}
+                    
+                    
                 
                 {% endif %}
+                </div>
+                
+                <div class="col-sm">
+                    {% block content %}
+                    {% endblock content %}
                 </div>
                 
             </div>

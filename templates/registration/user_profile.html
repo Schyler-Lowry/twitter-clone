@@ -16,29 +16,29 @@ Tweeter - {{ customuser.username }}'s profile
 
 
 {% block user_profile_column %}
-      
-        <div class="card mt-2">
-            <div class="card-body">
-                <h5><img src="{% get_avatar_url email=customuser.email %}" class= "border border-info rounded-circle" alt="user image">
-                     {% if customuser == user %}
-                    <span class="ps-3 ms-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary icon-link icon-link-hover"><i class="bi bi-person-fill-gear mb-1"></i> Edit Profile</a></span>
-                    {% endif %}
-                </h5>
-                <hr>
-                <p>Name: {{ customuser.first_name }} {{ customuser.last_name }}</p>
-            <p>Email: {{ customuser.email }}</p>
-            <p>Date of Birth: {{ customuser.date_of_birth }}</p>
-            <p>Joined: {{ customuser.date_joined }}</p>
-            <p>Last Seen: {{ customuser.last_login|timesince }} ago</p>
-            </div>
-        </div>
+
+<div class="card mt-2 collapse" id="collapseExample">
+    <div class="card-body">
+        <h5><img src="{% get_avatar_url email=customuser.email %}" class= "border border-info rounded-circle" alt="user image">
+             {% if customuser == user %}
+            <span class="ps-3 ms-1"><a style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);" href="{% url 'user_change_profile' customuser.pk %}" class="btn btn-primary icon-link icon-link-hover"><i class="bi bi-person-fill-gear mb-1"></i> Edit Profile</a></span>
+            {% endif %}
+        </h5>
+        <hr>
+        <p>Name: {{ customuser.first_name }} {{ customuser.last_name }}</p>
+    <p>Email: {{ customuser.email }}</p>
+    <p>Date of Birth: {{ customuser.date_of_birth }}</p>
+    <p>Joined: {{ customuser.date_joined }}</p>
+    <p>Last Seen: {{ customuser.last_login|timesince }} ago</p>
+    </div>
+</div>
         
         
     
     {% endblock user_profile_column %}
 {% block content %}
     
-    <div class="col">
+    <div class="col-sm">
         
         <div class="card vh-100">
             <div class="card-body h-75">
@@ -53,7 +53,7 @@ Tweeter - {{ customuser.username }}'s profile
                 {% for twit in customuser.twit_set.all|dictsortreversed:"created" %}
                 <div class="text rounded-pill bg-info p-2">         
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
                             <span class=""> | {{ twit.created|timesince }} ago</span>
@@ -62,7 +62,7 @@ Tweeter - {{ customuser.username }}'s profile
                                 <span class="fst-italic text-muted">| Edited: {{ twit.updated|timesince }} ago</span>
                                 {% endif %}
                         </div>
-                        <div class="col-1">      
+                        <div class="col-sm-1">      
                             {% if twit.author == user %}
                             <!--  px-2 py-2 -->
                             <div class="text-end position-relative top-50 start-50 translate-middle">
@@ -150,10 +150,10 @@ Tweeter - {{ customuser.username }}'s profile
                     <div class="card-body bg-light">
                         {% for comment in twit.comments.all|slice:3 %}
                         <div class="row">
-                            <div class="col-1">
+                            <div class="col-sm-1">
                                 <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                             </div>
-                            <div class="col ms-1 pt-2">
+                            <div class="col-sm ms-1 pt-2">
                                 <p style="font-size: small;">
                                     <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
                                  
@@ -168,7 +168,7 @@ Tweeter - {{ customuser.username }}'s profile
                             </div>
                             
                             
-                            <div class="col-1">      
+                            <div class="col-sm-1">      
                                 {% if comment.author == user %}
                                 <div class="text-end">
                                     
@@ -217,10 +217,10 @@ Tweeter - {{ customuser.username }}'s profile
                     <a href="{% url 'twit_detail' twit.pk %}">
                         <div class="card-footer bg-white">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm">
                                     {{ twit.comments.count|subtract:"3" }} more comments 
                                 </div>
-                                <div class="col-1 text-end">
+                                <div class="col-sm-1 text-end">
                                     <span class="fs-5"><i class="bi bi-box-arrow-in-right"></i></span>
                                 </div>
                             </div>
@@ -264,10 +264,10 @@ Tweeter - {{ customuser.username }}'s profile
                 
                 <div class="text rounded-pill bg-info p-2">         
                     <div class="row">
-                        <div class="col-1">
+                        <div class="col-sm-1">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
                         </div>
-                        <div class="col pt-2 ms-3">
+                        <div class="col-sm pt-2 ms-3">
                             <p class="lh-1" style="font-size: small;">
                                 <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-6 fw-bold">{{ twit.author }}</span></a>
                              
@@ -284,7 +284,7 @@ Tweeter - {{ customuser.username }}'s profile
                            
                         
                         
-                        <div class="col-1">      
+                        <div class="col-sm-1">      
                             {% if twit.author == user %}
                             <div class="text-end py-2">
                                 
