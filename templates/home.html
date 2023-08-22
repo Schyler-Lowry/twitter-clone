@@ -28,22 +28,23 @@ CIS218
                 {% for twit in twit_list|dictsortreversed:"created" %}
                 <!-- <div class="row bg-info text-wrap rounded-pill p-2 m-2 "> -->
                     <div class="card bg-info bg-info rounded border border-2" >
+                        <div class="card-body">
                         <div class="row gap-1">
-                          <div class="col-sm-2 ms-3 my-3">
+                          <div class="col  my-3">
                             <a href="{% url "user_profile" twit.author.pk %}"><img src="{% get_avatar_url email=twit.author.email size=100 %}" class="img-fluid rounded-circle" alt="user image"></a> 
                             
+                            <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
+                            <span class=""> {{ twit.created|timesince }} ago</span>
+                            {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
+                                <span class="fst-italic text-muted"> Edited: {{ twit.updated|timesince }} ago</span>
+                                {% endif %}
                           </div>
-                          <div class="col-sm">
-                            <div class="card-body">
-                                <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" twit.author.pk %}"><span class="fs-4 fw-bold">{{ twit.author }}</span></a>
-                                <span class=""> | {{ twit.created|timesince }} ago</span>
-                                {% if twit.updated|date:"m/d/y H:i:s" != twit.created|date:"m/d/y H:i:s" %}
-                                    <span class="fst-italic text-muted"> Edited: {{ twit.updated|timesince }} ago</span>
-                                    {% endif %}
+                          <div class="col-1">
+                            
                                     {% if twit.author == user %}
                         <!--  px-2 py-2 -->
                         
-                            
+                            <div class="text-end pe-1">
                                 <div class="dropend">
                                     <button 
                                         id ="dropdownUser1"
@@ -73,7 +74,7 @@ CIS218
                             
                         
                         
-                           
+                            </div>
                         {% endif %}
                                 
                               <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
@@ -143,25 +144,22 @@ CIS218
                 <div class="card">
                     <div class="card-body bg-light">
                         {% for comment in twit.comments.all|slice:3 %}
-                        <div class="row">
-                            <div class="col-sm">
+                        <div class="row ">
+                            <div class="col">
                                 <a href="{% url "user_profile" comment.author.pk %}"><img src="{% get_avatar_url email=comment.author.email size=50 %}" class="rounded-circle" alt="user image"></a>     
-                            </div>
-                            <div class="col-sm">
-                                <p style="font-size: small;">
+                                
                                     <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url "user_profile" comment.author.pk %}"><span class="fs-6 fw-bold">{{ comment.author }}</span></a>
-                                 
-                                    <span class="text-muted"> {{ comment.created|timesince }} ago</span>
+                            
+                                   <small> <span class="text-muted"> {{ comment.created|timesince }} ago</span></small>
                                     {% if comment.updated|date:"m/d/y H:i:s" != comment.created|date:"m/d/y H:i:s" %}
                                 <span class="fst-italic text-muted"> Edited: {{ comment.updated|timesince }} ago</span>
                                 {% endif %}
-                                </p>
-                                
                                 
                             </div>
                             
                             
-                            <div class="col-sm-1">      
+                            
+                            <div class="col-1">      
                                 {% if comment.author == user %}
                                 <div class="text-end">
                                     
