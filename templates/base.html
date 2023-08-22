@@ -41,6 +41,11 @@ CIS218
             {% url 'user_profile' user.pk as user_profile %}
         <main>{% if user.is_authenticated %}
             <div class="container text-start">
+                <div class="d-grid gap-2 col-sm-3 p-1">
+                    <button class="btn btn-info text-light border border-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list"> </i> Menu
+                        </button>
+                </div>
             <div class="row align-items-start">
                 
                 
@@ -50,10 +55,13 @@ CIS218
                             <span class="navbar-toggler-icon"></span>
                           </button> -->
                     {% endcomment %}
+                    
+                    
                 
-                
-                <div class="col-sm-3 sticky-top pb-3">
-                    <div class="card" id="navbarCollapse">
+                    
+                <div class="col-sm-3 expand sticky-top py-2" id="navbarCollapse">
+                    
+                    <div class="card show" >
                         <div class="card-body">
                             <!-- <button class="btn btn-light border border-2 border-info ml-2"></button> -->
                             
@@ -83,7 +91,7 @@ CIS218
                                         <li class=""><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>                                
                                     </ul>
                                     {% if request.get_full_path == custom_user_profile %}
-                                    <a href="{{ user_profile }}"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="btn btn-outline-info ml-2  link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none" ><span class=" icon-link icon-link-hover"><i class="bi bi-person mb-2"></i> Toggle User Details</span></a>
+                                    <a href="{{ user_profile }}"  id="userProfileButton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-icon-link-transform: translate3d(-.50rem, 0, 0);" class="btn btn-outline-info ml-2  link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover text-decoration-none" ><span class=" icon-link icon-link-hover" ><i class="bi bi-person mb-2"></i></span><span id="userProfileDetails"> View Details about</span> <span class="fw-bold">{{ customuser.username }}</span></a>
                                     {% endif %}
                                 
                                     
@@ -102,7 +110,7 @@ CIS218
                 {% endif %}
                 </div>
                 
-                <div class="col-sm">
+                <div class="col-sm py-2">
                     {% block content %}
                     {% endblock content %}
                 </div>
