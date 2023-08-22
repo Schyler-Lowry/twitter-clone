@@ -86,3 +86,18 @@ $('#btn-cancel-comment').click(function() {
         window.location.hash = $(this).attr('href');
     });
  });
+
+
+let userProfileDetails = document.getElementById("userProfileDetails")
+
+$('#userProfileButton').click(function() {
+    if (userProfileDetails.textContent.includes("View")) {
+        // console.log("it's in there")
+        userProfileDetails.textContent = "Hide Details about"
+    } else {
+        userProfileDetails.textContent = "View Details about"
+    }
+    
+    
+    // console.log(userProfileDetails.textContent)
+});
